@@ -1,5 +1,6 @@
-package ua.com.juja.ksergey.sqlcmd.controller.command;
+package ua.com.juja.ksergey.sqlcmd.controller.command.record;
 
+import ua.com.juja.ksergey.sqlcmd.controller.command.Command;
 import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
 import ua.com.juja.ksergey.sqlcmd.view.View;
 
@@ -16,23 +17,23 @@ public class Clear implements Command {
         this.view = view;
     }
 
-    public Clear(){
+    public Clear() {
     }
 
     @Override
     public boolean canExecute(String command) {
-        return command.startsWith("clear|");
+        return command.startsWith("clear");
     }
 
     @Override
     public void execute(String command) {
         String[] data = command.split("\\|");
         if (data.length != 2) {
-            throw new IllegalArgumentException("Неверное количество параметров");
+            view.write("Неверное количество параметров, формат команды:\n" + format());
+        } else {
+            manager.clear(data[1]);
+            view.write("Таблица очищена.");
         }
-        manager.clear(data[1]);
-
-        view.write("Таблица очищена.");
     }
 
     @Override

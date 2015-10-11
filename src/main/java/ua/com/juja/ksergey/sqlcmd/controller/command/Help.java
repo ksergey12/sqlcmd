@@ -1,5 +1,9 @@
 package ua.com.juja.ksergey.sqlcmd.controller.command;
 
+import ua.com.juja.ksergey.sqlcmd.controller.command.record.*;
+import ua.com.juja.ksergey.sqlcmd.controller.command.table.Create;
+import ua.com.juja.ksergey.sqlcmd.controller.command.table.Delete;
+import ua.com.juja.ksergey.sqlcmd.controller.command.table.TableList;
 import ua.com.juja.ksergey.sqlcmd.view.View;
 
 /**
@@ -52,10 +56,6 @@ public class Help implements Command {
         Command delete = new Delete();
         view.write(delete.format());
         view.write(delete.description());
-
-        Command drop = new Drop();
-        view.write(drop.format());
-        view.write(drop.description());
 
         Command help = new Help();
         view.write(help.format());

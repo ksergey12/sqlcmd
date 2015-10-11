@@ -1,40 +1,42 @@
-package ua.com.juja.ksergey.sqlcmd.controller.command;
+package ua.com.juja.ksergey.sqlcmd.controller.command.table;
 
+import ua.com.juja.ksergey.sqlcmd.controller.command.Command;
 import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
 import ua.com.juja.ksergey.sqlcmd.view.View;
 
 /**
  * Created by user on 30.09.2015.
  */
-public class Drop implements Command {
+public class Delete implements Command {
     private DatabaseManager manager;
     private View view;
 
-    public Drop(DatabaseManager manager, View view) {
+    public Delete(DatabaseManager manager, View view) {
         this.manager = manager;
         this.view = view;
     }
 
-    public Drop() {
+    public Delete() {
+
     }
 
     @Override
     public boolean canExecute(String command) {
-        return command.startsWith("drop|");
+        return command.startsWith("delete|");
     }
 
     @Override
     public void execute(String command) {
-        view.write("В разработке."); // TODO implement drop
+        view.write("В разработке."); // TODO implement delete
     }
 
     @Override
     public String format() {
-        return "\tdrop|databaseName";
+        return "\tdelete|tableName";
     }
 
     @Override
     public String description() {
-        return "\t\tдля удаления базы";
+        return "\t\tдля удаления таблицы";
     }
 }

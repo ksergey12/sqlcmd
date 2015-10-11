@@ -6,7 +6,7 @@ import ua.com.juja.ksergey.sqlcmd.view.View;
 /**
  * Created by user on 30.09.2015.
  */
-public class Connect implements Command{
+public class Connect implements Command {
     private DatabaseManager manager;
     private View view;
 
@@ -20,26 +20,26 @@ public class Connect implements Command{
 
     @Override
     public boolean canExecute(String command) {
-        return command.startsWith("connect|");
+        return command.startsWith("connect");
     }
 
     @Override
     public void execute(String command) {
         String[] data = command.split("\\|");
         if (data.length != 4) {
-            throw new IllegalArgumentException("Неверное количество параметров");
+            view.write("Неверное количество параметров, формат команды:\n" + format());
+        } else {
+            String database = data[1];
+            String user = data[2];
+            String password = data[3];
+            manager.connect(database, user, password);
+            view.write("Подключение выполнено.");
         }
-        String database = data[1];
-        String user = data[2];
-        String password = data[3];
-
-        manager.connect(database, user, password);
-        view.write("Подключение выполнено.");
     }
 
     @Override
     public String format() {
-        return "\tconnect|databaseName|userName|password";
+        return "\tconnect|database|user|password";
     }
 
     @Override

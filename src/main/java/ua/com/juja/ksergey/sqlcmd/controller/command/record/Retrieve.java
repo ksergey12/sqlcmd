@@ -1,5 +1,6 @@
-package ua.com.juja.ksergey.sqlcmd.controller.command;
+package ua.com.juja.ksergey.sqlcmd.controller.command.record;
 
+import ua.com.juja.ksergey.sqlcmd.controller.command.Command;
 import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
 import ua.com.juja.ksergey.sqlcmd.view.View;
 

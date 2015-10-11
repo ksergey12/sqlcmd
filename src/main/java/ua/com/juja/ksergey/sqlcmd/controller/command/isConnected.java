@@ -22,7 +22,10 @@ public class isConnected implements Command {
 
     @Override
     public void execute(String command) {
-        view.write("Отсутствует подключение к базе данных.");
+//        view.write("Отсутствует подключение к базе данных.");
+        view.write(String.format("Вы не можете пользоваться командой '%s' пока " +
+                "не подключитесь с помощью команды " +
+                "connect|database|user|password", command));
     }
 
     @Override

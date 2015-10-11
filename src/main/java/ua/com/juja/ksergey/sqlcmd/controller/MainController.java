@@ -1,6 +1,10 @@
 package ua.com.juja.ksergey.sqlcmd.controller;
 
 import ua.com.juja.ksergey.sqlcmd.controller.command.*;
+import ua.com.juja.ksergey.sqlcmd.controller.command.record.*;
+import ua.com.juja.ksergey.sqlcmd.controller.command.table.Create;
+import ua.com.juja.ksergey.sqlcmd.controller.command.table.Delete;
+import ua.com.juja.ksergey.sqlcmd.controller.command.table.TableList;
 import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
 import ua.com.juja.ksergey.sqlcmd.view.View;
 
@@ -18,25 +22,25 @@ public class MainController {
     public MainController(View view, DatabaseManager manager) {
         this.view = view;
         this.commands = new Command[]{
-                new Exit(view),
-                new Help(view),
                 new Connect(manager, view),
-                new TableList(manager, view),
-                new Retrieve(manager, view),
-                new Create(manager, view),
-                new Update(manager, view),
-                new Delete(manager, view),
-                new Drop(manager, view),
-                new Clear(manager, view),
+                new Help(view),
                 new Log(view, log),
+                new Exit(view),
+                new isConnected(manager, view),
+                new Retrieve(manager, view),
+                new Update(manager, view),
+                new Clear(manager, view),
+                new Create(manager, view),
+                new Delete(manager, view),
+                new TableList(manager, view),
                 new Unsupported(view),
-                new isConnected(manager, view)};
+        };
     }
 
     public void run() {
         try {
             while (true) {
-                view.write("Введи команду (или help для помощи):");
+                view.write("Введите команду или help для помощи:");
                 String input = view.read();
 
                 for (Command command : commands) {
