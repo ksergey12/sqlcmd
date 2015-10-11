@@ -19,12 +19,12 @@ public class Connect implements Command{
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canExecute(String command) {
         return command.startsWith("connect|");
     }
 
     @Override
-    public void process(String command) {
+    public void execute(String command) {
         String[] data = command.split("\\|");
         if (data.length != 4) {
             throw new IllegalArgumentException("Неверное количество параметров");

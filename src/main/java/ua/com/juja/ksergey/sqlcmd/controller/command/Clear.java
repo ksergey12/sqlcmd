@@ -20,12 +20,12 @@ public class Clear implements Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canExecute(String command) {
         return command.startsWith("clear|");
     }
 
     @Override
-    public void process(String command) {
+    public void execute(String command) {
         String[] data = command.split("\\|");
         if (data.length != 2) {
             throw new IllegalArgumentException("Неверное количество параметров");

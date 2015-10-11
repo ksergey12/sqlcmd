@@ -40,8 +40,8 @@ public class MainController {
                 String input = view.read();
 
                 for (Command command : commands) {
-                    if (command.canProcess(input)) {
-                        command.process(input);
+                    if (command.canExecute(input)) {
+                        command.execute(input);
                         log.add(input);
                         break;
                     }

@@ -16,12 +16,12 @@ public class isConnected implements Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canExecute(String command) {
         return !manager.isConnected();
     }
 
     @Override
-    public void process(String command) {
+    public void execute(String command) {
         view.write("Отсутствует подключение к базе данных.");
     }
 

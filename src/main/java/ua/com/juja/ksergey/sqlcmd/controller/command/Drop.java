@@ -19,12 +19,12 @@ public class Drop implements Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canExecute(String command) {
         return command.startsWith("drop|");
     }
 
     @Override
-    public void process(String command) {
+    public void execute(String command) {
         view.write("В разработке."); // TODO implement drop
     }
 

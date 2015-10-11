@@ -21,12 +21,12 @@ public class Log implements Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canExecute(String command) {
         return command.equals("log");
     }
 
     @Override
-    public void process(String command) {
+    public void execute(String command) {
         if (log.isEmpty())
             view.write("Список команд пуст.");
         else {

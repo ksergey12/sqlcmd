@@ -17,12 +17,12 @@ public class Help implements Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canExecute(String command) {
         return command.equals("help");
     }
 
     @Override
-    public void process(String command) {
+    public void execute(String command) {
         view.write("Существующие команды:");
 
         Command connect = new Connect();

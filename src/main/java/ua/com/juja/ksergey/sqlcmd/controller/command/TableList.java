@@ -20,13 +20,13 @@ public class TableList implements Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canExecute(String command) {
         return command.equals("list");
     }
 
 
     @Override
-    public void process(String command) {
+    public void execute(String command) {
         Set<String> tableNames = manager.getTableNames();
         String message = tableNames.toString();
         view.write(message);

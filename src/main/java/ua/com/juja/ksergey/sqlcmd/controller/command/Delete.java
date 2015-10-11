@@ -20,12 +20,12 @@ public class Delete implements Command {
     }
 
     @Override
-    public boolean canProcess(String command) {
+    public boolean canExecute(String command) {
         return command.startsWith("delete|");
     }
 
     @Override
-    public void process(String command) {
+    public void execute(String command) {
         view.write("В разработке."); // TODO implement delete
     }
 

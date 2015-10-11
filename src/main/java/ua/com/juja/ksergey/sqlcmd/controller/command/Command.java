@@ -5,9 +5,9 @@ package ua.com.juja.ksergey.sqlcmd.controller.command;
  */
 public interface Command {
 
-    boolean canProcess(String command);
+    boolean canExecute(String command);
 
-    void process(String command);
+    void execute(String command);
 
     String format();
 
