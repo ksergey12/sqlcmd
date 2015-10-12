@@ -39,8 +39,8 @@ public class DatabaseManagerTest {
 
         // when
         DataSet input = new DataSetImpl();
-        input.put("name", "Stiven");
-        input.put("password", "pass");
+        input.put("name", "Vasia");
+        input.put("password", "strong_pass");
         input.put("id", 1);
         manager.create("user", input);
 
@@ -50,20 +50,7 @@ public class DatabaseManagerTest {
 
         DataSet user = users.get(0);
         assertEquals("[name, password, id]", user.getNames().toString());
-        assertEquals("[Stiven, pass, 1]", user.getValues().toString());
-    }
-
-    @Test
-    public void testGetTableData2() {
-        // given
-
-        // when
-
-        // then
-        List<DataSet> users = manager.getTableValues("user");
-        DataSet user = users.get(0);
-        assertEquals("[name, password, id]", user.getNames().toString());
-        assertEquals("[Stiven, pass, 1]", user.getValues().toString());
+        assertEquals("[Vasia, strong_pass, 1]", user.getValues().toString());
     }
 
     @Test

@@ -35,17 +35,17 @@ public class DataSetImpl implements DataSet {
     @Override
     public List<Object> getValues() {
         List<Object> result = new LinkedList<>();
-        for (Object item : data) {
-            result.add(item);
+        for (Data item : data) {
+            result.add(item.getValue());
         }
         return result;
     }
 
     @Override
     public Set<String> getNames() {
-        Set<String> result = new HashSet<>();
-        for (String item : result) {
-            result.add(item);
+        Set<String> result = new LinkedHashSet<>();
+        for (Data item : data) {
+            result.add(item.getName());
         }
         return result;
     }

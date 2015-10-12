@@ -96,13 +96,14 @@ public class JDBCDatabaseManager implements DatabaseManager {
                 keys += key + delimiter;
             }
             keys = keys.substring(0, keys.length() - 1);
-
             String values = "";
             for (Object value : input.getValues()) {
+                value = "\'" + value + "\'";
                 values += value + delimiter;
             }
             values = values.substring(0, values.length() - 1);
-
+            System.out.println("INSERT INTO public." + tableName + " (" + keys + ") " +
+                    "VALUES (" + values + ")");
             stmt.executeUpdate("INSERT INTO public." + tableName + " (" + keys + ")" +
                     "VALUES (" + values + ")");
         } catch (SQLException e) {

@@ -14,6 +14,8 @@ import java.util.Set;
 public class Show implements Command {
     private DatabaseManager manager;
     private View view;
+    public static final String line = "-----------------------";
+    public static final String delimiter = "\t";
 
     public Show(DatabaseManager manager, View view) {
         this.manager = manager;
@@ -35,11 +37,38 @@ public class Show implements Command {
             view.write("Неверное количество параметров, формат команды:\n" + format());
         } else {
             String tableName = input[1];
+
             Set<String> columns = manager.getTableColumns(tableName);
-            view.write("---" + columns + "---");
+            printHeader(columns);
             List<DataSet> values = manager.getTableValues(tableName);
-            view.write("---" + values + "---");
+            printTable(values);
         }
+    }
+
+    private void printTable(List<DataSet> tableData) {
+        for (DataSet row : tableData) {
+            printRow(row);
+        }
+        view.write(line);
+    }
+
+    private void printRow(DataSet row) {
+        List<Object> values = row.getValues();
+        String result = "";
+        for (Object value : values) {
+            result += value + delimiter;
+        }
+        view.write(result);
+    }
+
+    private void printHeader(Set<String> tableColumns) {
+        String header = "";
+        for (String name : tableColumns) {
+            header += name + delimiter;
+        }
+        view.write(line);
+        view.write(header);
+        view.write(line);
     }
 
     @Override
