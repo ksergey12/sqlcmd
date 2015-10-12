@@ -150,6 +150,80 @@ public class IntegrationTest {
     }
 
     @Test
+    public void testRetrieveWithoutConnect() {
+        // given
+        console.addIn("show|user");
+        console.addIn("exit");
+
+        // when
+        Main.main(new String[0]);
+
+        // then
+        assertEquals("Введите команду или help для помощи:\n" +
+                "Вы не можете пользоваться командой 'show|user' пока не подключитесь с помощью команды connect|database|user|password\n" +
+                "Введите команду или help для помощи:\n" +
+                "До скорой встречи!\n", console.getOut());
+    }
+
+    @Test
+    public void testShowAfterConnect() {
+        // given
+        console.addIn("connect|sqlcmd|postgres|postgres");
+        console.addIn("clear|user");
+        console.addIn("show|user");
+        console.addIn("exit");
+
+        // when
+        Main.main(new String[0]);
+
+        // then
+        assertEquals("Введите команду или help для помощи:\n" +
+                "Подключение выполнено.\n" +
+                "Введите команду или help для помощи:\n" +
+                "Таблица user очищена.\n" +
+                "Введите команду или help для помощи:\n" +
+                "-----------------------\n" +
+                "name\tpassword\tid\t\n" +
+                "-----------------------\n" +
+                "-----------------------\n" +
+                "Введите команду или help для помощи:\n" +
+                "До скорой встречи!\n", console.getOut());
+    }
+
+        @Test
+    public void testFindAfterConnect_withData() {
+        // given
+        console.addIn("connect|sqlcmd|postgres|postgres");
+        console.addIn("clear|user");
+        console.addIn("create|user|id|1|name|Vasia|password|123456");
+        console.addIn("create|user|id|2|name|Petia|password|654321");
+        console.addIn("show|user");
+        console.addIn("exit");
+
+        // when
+        Main.main(new String[0]);
+
+        // then
+        assertEquals("Введите команду или help для помощи:\n" +
+                "Подключение выполнено.\n" +
+                "Введите команду или help для помощи:\n" +
+                "Таблица user очищена.\n" +
+                "Введите команду или help для помощи:\n" +
+                "Запись была успешно создана в таблице user\n" +
+                "Введите команду или help для помощи:\n" +
+                "Запись была успешно создана в таблице user\n" +
+                "Введите команду или help для помощи:\n" +
+                "-----------------------\n" +
+                "name\tpassword\tid\t\n" +
+                "-----------------------\n" +
+                "Vasia\t123456\t1\t\n" +
+                "Petia\t654321\t2\t\n" +
+                "-----------------------\n" +
+                "Введите команду или help для помощи:\n" +
+                "До скорой встречи!\n", console.getOut());
+    }
+
+    @Test
     public void testUnsupported() {
         // given
         console.addIn("unsupported");

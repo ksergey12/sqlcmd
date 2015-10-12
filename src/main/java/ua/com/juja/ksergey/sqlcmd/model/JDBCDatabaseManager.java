@@ -102,8 +102,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
                 values += value + delimiter;
             }
             values = values.substring(0, values.length() - 1);
-            System.out.println("INSERT INTO public." + tableName + " (" + keys + ") " +
-                    "VALUES (" + values + ")");
             stmt.executeUpdate("INSERT INTO public." + tableName + " (" + keys + ")" +
                     "VALUES (" + values + ")");
         } catch (SQLException e) {
