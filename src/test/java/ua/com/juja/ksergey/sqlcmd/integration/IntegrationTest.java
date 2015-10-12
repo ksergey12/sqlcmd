@@ -1,14 +1,14 @@
 package ua.com.juja.ksergey.sqlcmd.integration;
 
 import org.junit.Test;
-import ua.com.juja.ksergey.sqlcmd.controller.Main;
+import ua.com.juja.ksergey.sqlcmd.command.Main;
 import static org.junit.Assert.assertEquals;
 
 /**
  * Created by user on 11.10.15.
  */
 public class IntegrationTest {
-    private ua.com.juja.ksergey.sqlcmd.integration.ConsoleMock console = new ua.com.juja.ksergey.sqlcmd.integration.ConsoleMock();
+    private ConsoleMock console = new ConsoleMock();
 
     @Test
     public void testHelp() {
@@ -190,7 +190,7 @@ public class IntegrationTest {
                 "До скорой встречи!\n", console.getOut());
     }
 
-        @Test
+    @Test
     public void testFindAfterConnect_withData() {
         // given
         console.addIn("connect|sqlcmd|postgres|postgres");
@@ -324,7 +324,7 @@ public class IntegrationTest {
     public void testClearWithError() {
         // given
         console.addIn("connect|sqlcmd|postgres|postgres");
-        console.addIn("clear|sadfasd|fsf|fdsf");
+        console.addIn("clear|error|command");
         console.addIn("exit");
 
         // when

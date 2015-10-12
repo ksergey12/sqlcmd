@@ -1,6 +1,6 @@
-package ua.com.juja.ksergey.sqlcmd.controller;
+package ua.com.juja.ksergey.sqlcmd.command;
 
-import ua.com.juja.ksergey.sqlcmd.controller.command.ExitException;
+import ua.com.juja.ksergey.sqlcmd.command.command.ExitException;
 import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
 import ua.com.juja.ksergey.sqlcmd.model.JDBCDatabaseManager;
 import ua.com.juja.ksergey.sqlcmd.view.Console;

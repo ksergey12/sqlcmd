@@ -1,4 +1,4 @@
-package ua.com.juja.ksergey.sqlcmd.controller.command;
+package ua.com.juja.ksergey.sqlcmd.command.command;
 
 import ua.com.juja.ksergey.sqlcmd.view.View;
 

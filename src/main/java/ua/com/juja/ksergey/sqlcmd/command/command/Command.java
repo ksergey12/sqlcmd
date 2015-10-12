@@ -1,4 +1,4 @@
-package ua.com.juja.ksergey.sqlcmd.controller.command;
+package ua.com.juja.ksergey.sqlcmd.command.command;
 
 /**
  * Created by user on 30.09.2015.

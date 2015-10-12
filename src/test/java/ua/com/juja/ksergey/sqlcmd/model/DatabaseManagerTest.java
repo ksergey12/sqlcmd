@@ -66,7 +66,7 @@ public class DatabaseManagerTest {
     }
 
     @Test
-    public void testisConnected() {
+    public void testIsConnected() {
         // given
         // when
         // then
