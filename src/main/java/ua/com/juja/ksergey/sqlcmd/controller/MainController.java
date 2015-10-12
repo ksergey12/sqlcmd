@@ -2,8 +2,7 @@ package ua.com.juja.ksergey.sqlcmd.controller;
 
 import ua.com.juja.ksergey.sqlcmd.controller.command.*;
 import ua.com.juja.ksergey.sqlcmd.controller.command.record.*;
-import ua.com.juja.ksergey.sqlcmd.controller.command.table.Create;
-import ua.com.juja.ksergey.sqlcmd.controller.command.table.Delete;
+import ua.com.juja.ksergey.sqlcmd.controller.command.record.Create;
 import ua.com.juja.ksergey.sqlcmd.controller.command.table.TableList;
 import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
 import ua.com.juja.ksergey.sqlcmd.view.View;
@@ -27,11 +26,10 @@ public class MainController {
                 new Log(view, log),
                 new Exit(view),
                 new isConnected(manager, view),
-                new Retrieve(manager, view),
+                new Show(manager, view),
                 new Update(manager, view),
                 new Clear(manager, view),
                 new Create(manager, view),
-                new Delete(manager, view),
                 new TableList(manager, view),
                 new Unsupported(view),
         };

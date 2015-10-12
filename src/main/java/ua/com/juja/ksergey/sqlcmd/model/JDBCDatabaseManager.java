@@ -14,7 +14,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         Set<String> tables = new LinkedHashSet<>();
         try {
             DatabaseMetaData dbm = connection.getMetaData();
-            ResultSet rs = dbm.getTables(null, null, "%", new String[] {"TABLE"});
+            ResultSet rs = dbm.getTables(null, null, "%", new String[]{"TABLE"});
             while (rs.next()) {
                 tables.add(rs.getString("table_name"));
             }
@@ -26,7 +26,23 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public List<DataSet> getTableData(String tableName) {
+    public Set<String> getTableColumns(String tableName) {
+        Set<String> tableColumns = new LinkedHashSet<>();
+        try {
+            DatabaseMetaData md = connection.getMetaData();
+            ResultSet rs = md.getColumns(null, null, tableName, null);
+            while (rs.next()) {
+                tableColumns.add(rs.getString("column_name"));
+            }
+            return tableColumns;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return tableColumns;
+        }
+    }
+
+    @Override
+    public List<DataSet> getTableValues(String tableName) {
         List<DataSet> result = new ArrayList<>();
 
         try (Statement statement = connection.createStatement()) {
@@ -44,22 +60,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
             return result;
         }
         return result;
-    }
-
-    @Override
-    public Set<String> getTableColumns(String tableName) {
-        Set<String> tableColumns = new LinkedHashSet<>();
-        try {
-            DatabaseMetaData md = connection.getMetaData();
-            ResultSet rs = md.getColumns(null, null, tableName, null);
-            while (rs.next()) {
-                tableColumns.add(rs.getString("column_name"));
-            }
-            return tableColumns;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return tableColumns;
-        }
     }
 
     @Override
@@ -89,12 +89,48 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public void create(String tableName, DataSet input) {
-        // TODO implement this
+        try (Statement stmt = connection.createStatement()) {
+            String delimiter = ",";
+            String keys = "";
+            for (String key : input.getNames()) {
+                keys += key + delimiter;
+            }
+            keys = keys.substring(0, keys.length() - 1);
+
+            String values = "";
+            for (Object value : input.getValues()) {
+                values += value + delimiter;
+            }
+            values = values.substring(0, values.length() - 1);
+
+            stmt.executeUpdate("INSERT INTO public." + tableName + " (" + keys + ")" +
+                    "VALUES (" + values + ")");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void update(String tableName, int id, DataSet newValue) {
-        // TODO implement this
+        String delimiter = "%s = ?,";
+        String keys = "";
+        for (String key : newValue.getNames()) {
+            keys += key + delimiter;
+        }
+        keys = keys.substring(0, keys.length() - 1);
+        String sql = "UPDATE public." + tableName + " SET " + keys + " WHERE id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int index = 1;
+            for (Object value : newValue.getValues()) {
+                ps.setObject(index, value);
+                index++;
+            }
+            ps.setInt(index, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

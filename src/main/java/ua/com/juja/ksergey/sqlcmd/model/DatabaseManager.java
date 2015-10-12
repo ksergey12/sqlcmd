@@ -10,7 +10,7 @@ public interface DatabaseManager {
 
     Set<String> getTableNames();
 
-    List<DataSet> getTableData(String tableName);
+    List<DataSet> getTableValues(String tableName);
 
     Set<String> getTableColumns(String tableName);
 

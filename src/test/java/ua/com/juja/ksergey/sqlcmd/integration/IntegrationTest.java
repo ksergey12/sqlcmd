@@ -28,14 +28,12 @@ public class IntegrationTest {
                 "\t\tдля получения списка всех таблиц подключённой базы\n" +
                 "\tclear|tableName\n" +
                 "\t\tдля очистки всей таблицы\n" +
-                "\ttable|tableName\n" +
+                "\tshow|tableName\n" +
                 "\t\tдля получения содержимого таблицы 'tableName'\n" +
                 "\tcreate|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
                 "\t\tдля создания записи в таблице\n" +
                 "\tupdate|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
                 "\t\tдля обновления записи в таблице\n" +
-                "\tdelete|tableName\n" +
-                "\t\tдля удаления таблицы\n" +
                 "\thelp\n" +
                 "\t\tдля вывода этого списка на экран\n" +
                 "\tlog\n" +
@@ -104,14 +102,12 @@ public class IntegrationTest {
                 "\t\tдля получения списка всех таблиц подключённой базы\n" +
                 "\tclear|tableName\n" +
                 "\t\tдля очистки всей таблицы\n" +
-                "\ttable|tableName\n" +
+                "\tshow|tableName\n" +
                 "\t\tдля получения содержимого таблицы 'tableName'\n" +
                 "\tcreate|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
                 "\t\tдля создания записи в таблице\n" +
                 "\tupdate|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
                 "\t\tдля обновления записи в таблице\n" +
-                "\tdelete|tableName\n" +
-                "\t\tдля удаления таблицы\n" +
                 "\thelp\n" +
                 "\t\tдля вывода этого списка на экран\n" +
                 "\tlog\n" +

@@ -1,6 +1,8 @@
 package ua.com.juja.ksergey.sqlcmd.controller.command.record;
 
 import ua.com.juja.ksergey.sqlcmd.controller.command.Command;
+import ua.com.juja.ksergey.sqlcmd.model.DataSet;
+import ua.com.juja.ksergey.sqlcmd.model.DataSetImpl;
 import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
 import ua.com.juja.ksergey.sqlcmd.view.View;
 
@@ -21,12 +23,12 @@ public class Update implements Command {
 
     @Override
     public boolean canExecute(String command) {
-        return command.startsWith("update|");
+        return command.startsWith("update");
     }
 
     @Override
     public void execute(String command) {
-        view.write("В разработке."); // TODO implement update
+        // TODO implement update
     }
 
     @Override

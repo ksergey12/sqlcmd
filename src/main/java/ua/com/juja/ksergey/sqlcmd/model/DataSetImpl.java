@@ -52,7 +52,11 @@ public class DataSetImpl implements DataSet {
 
     @Override
     public Object get(String name) {
-        //TODO implement this
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i).getName().equals(name)) {
+                return data.get(i).getValue();
+            }
+        }
         return null;
     }
 
