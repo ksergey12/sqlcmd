@@ -1,7 +1,7 @@
-package ua.com.juja.ksergey.sqlcmd.command.command;
+package ua.com.juja.ksergey.sqlcmd.controller.command;
 
-import ua.com.juja.ksergey.sqlcmd.command.command.record.*;
-import ua.com.juja.ksergey.sqlcmd.command.command.table.*;
+import ua.com.juja.ksergey.sqlcmd.controller.command.record.*;
+import ua.com.juja.ksergey.sqlcmd.controller.command.table.*;
 import ua.com.juja.ksergey.sqlcmd.view.View;
 
 /**

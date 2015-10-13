@@ -1,9 +1,9 @@
-package ua.com.juja.ksergey.sqlcmd.command;
+package ua.com.juja.ksergey.sqlcmd.controller;
 
-import ua.com.juja.ksergey.sqlcmd.command.command.*;
-import ua.com.juja.ksergey.sqlcmd.command.command.record.*;
-import ua.com.juja.ksergey.sqlcmd.command.command.record.Create;
-import ua.com.juja.ksergey.sqlcmd.command.command.table.TableList;
+import ua.com.juja.ksergey.sqlcmd.controller.command.*;
+import ua.com.juja.ksergey.sqlcmd.controller.command.record.*;
+import ua.com.juja.ksergey.sqlcmd.controller.command.record.Create;
+import ua.com.juja.ksergey.sqlcmd.controller.command.table.TableList;
 import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
 import ua.com.juja.ksergey.sqlcmd.view.View;
 

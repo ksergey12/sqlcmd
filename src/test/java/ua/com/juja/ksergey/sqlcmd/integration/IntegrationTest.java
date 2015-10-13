@@ -1,7 +1,7 @@
 package ua.com.juja.ksergey.sqlcmd.integration;
 
 import org.junit.Test;
-import ua.com.juja.ksergey.sqlcmd.command.Main;
+import ua.com.juja.ksergey.sqlcmd.controller.Main;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -324,7 +324,7 @@ public class IntegrationTest {
     public void testClearWithError() {
         // given
         console.addIn("connect|sqlcmd|postgres|postgres");
-        console.addIn("clear|error|command");
+        console.addIn("clear|error|controller");
         console.addIn("exit");
 
         // when

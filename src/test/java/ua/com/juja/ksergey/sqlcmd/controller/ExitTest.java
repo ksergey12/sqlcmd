@@ -1,10 +1,10 @@
-package ua.com.juja.ksergey.sqlcmd.command;
+package ua.com.juja.ksergey.sqlcmd.controller;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.juja.ksergey.sqlcmd.command.command.Command;
-import ua.com.juja.ksergey.sqlcmd.command.command.Exit;
-import ua.com.juja.ksergey.sqlcmd.command.command.ExitException;
+import ua.com.juja.ksergey.sqlcmd.controller.command.Command;
+import ua.com.juja.ksergey.sqlcmd.controller.command.Exit;
+import ua.com.juja.ksergey.sqlcmd.controller.command.ExitException;
 import ua.com.juja.ksergey.sqlcmd.view.View;
 
 import static junit.framework.TestCase.assertTrue;

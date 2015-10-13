@@ -1,9 +1,9 @@
-package ua.com.juja.ksergey.sqlcmd.command;
+package ua.com.juja.ksergey.sqlcmd.controller;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.juja.ksergey.sqlcmd.command.command.Command;
-import ua.com.juja.ksergey.sqlcmd.command.command.record.Clear;
+import ua.com.juja.ksergey.sqlcmd.controller.command.Command;
+import ua.com.juja.ksergey.sqlcmd.controller.command.record.Clear;
 import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
 import ua.com.juja.ksergey.sqlcmd.view.View;
 import static org.junit.Assert.assertTrue;
