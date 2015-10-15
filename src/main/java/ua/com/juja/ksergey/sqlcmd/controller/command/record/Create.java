@@ -47,11 +47,11 @@ public class Create implements Command {
 
     @Override
     public String format() {
-        return "\tcreate|tableName|column1|value1|column2|value2|...|columnN|valueN";
+        return "create|tableName|column1|value1|column2|value2|...|columnN|valueN";
     }
 
     @Override
     public String description() {
-        return "\t\tдля создания записи в таблице";
+        return "для создания записи в таблице";
     }
 }

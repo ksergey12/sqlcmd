@@ -66,7 +66,6 @@ public class ClearTest {
         command.execute("clear|table|table");
 
         // then
-        verify(view).write("Неверное количество параметров, формат команды:\n" +
-                "\tclear|tableName");
+        verify(view).write("Неверное количество параметров, формат команды:\n\tclear|tableName");
     }
 }

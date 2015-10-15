@@ -35,11 +35,11 @@ public class TableList implements Command {
 
     @Override
     public String format() {
-        return "\tlist";
+        return "list";
     }
 
     @Override
     public String description() {
-        return "\t\tдля получения списка всех таблиц подключённой базы";
+        return "для получения списка всех таблиц подключённой базы";
     }
 }

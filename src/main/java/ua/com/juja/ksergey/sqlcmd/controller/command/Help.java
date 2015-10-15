@@ -4,6 +4,10 @@ import ua.com.juja.ksergey.sqlcmd.controller.command.record.*;
 import ua.com.juja.ksergey.sqlcmd.controller.command.table.*;
 import ua.com.juja.ksergey.sqlcmd.view.View;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by user on 30.09.2015.
  */
@@ -24,53 +28,27 @@ public class Help implements Command {
     }
 
     @Override
-    public void execute(String command) {
+    public void execute(String input) {
         view.write("Существующие команды:");
+        List<Command> commands = new LinkedList<>();
+        commands.addAll(Arrays.asList(new Connect(),
+                new TableList(), new Clear(), new Show(),
+                new Create(), new Update(), new Help(),
+                new Log(), new Exit(view)));
 
-        Command connect = new Connect();
-        view.write(connect.format());
-        view.write(connect.description());
-
-        Command tableList = new TableList();
-        view.write(tableList.format());
-        view.write(tableList.description());
-
-        Command clear = new Clear();
-        view.write(clear.format());
-        view.write(clear.description());
-
-        Command retrieve = new Show();
-        view.write(retrieve.format());
-        view.write(retrieve.description());
-
-        Command create = new Create();
-        view.write(create.format());
-        view.write(create.description());
-
-        Command update = new Update();
-        view.write(update.format());
-        view.write(update.description());
-
-        Command help = new Help();
-        view.write(help.format());
-        view.write(help.description());
-
-        Command log = new Log();
-        view.write(log.format());
-        view.write(log.description());
-
-        Command exit = new Exit(view);
-        view.write(exit.format());
-        view.write(exit.description());
+        for(Command command : commands){
+            view.write("\t" + command.format());
+            view.write("\t\t" + command.description());
+        }
     }
 
     @Override
     public String format() {
-        return "\thelp";
+        return "help";
     }
 
     @Override
     public String description() {
-        return "\t\tдля вывода этого списка на экран";
+        return "для вывода этого списка на экран";
     }
 }

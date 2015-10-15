@@ -26,11 +26,11 @@ public class Exit implements Command {
 
     @Override
     public String format() {
-        return "\texit";
+        return "exit";
     }
 
     @Override
     public String description() {
-        return "\t\tдля выхода из программы";
+        return "для выхода из программы";
     }
 }

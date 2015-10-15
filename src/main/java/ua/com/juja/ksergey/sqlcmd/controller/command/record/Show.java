@@ -73,11 +73,11 @@ public class Show implements Command {
 
     @Override
     public String format() {
-        return "\tshow|tableName";
+        return "show|tableName";
     }
 
     @Override
     public String description() {
-        return "\t\tдля получения содержимого таблицы 'tableName'";
+        return "для получения содержимого таблицы 'tableName'";
     }
 }

@@ -38,11 +38,11 @@ public class Log implements Command {
 
     @Override
     public String format() {
-        return "\tlog";
+        return "log";
     }
 
     @Override
     public String description() {
-        return "\t\tдля вывода истории введённых команд";
+        return "для вывода истории введённых команд";
     }
 }

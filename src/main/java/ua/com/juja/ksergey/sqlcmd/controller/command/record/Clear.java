@@ -29,7 +29,7 @@ public class Clear implements Command {
     public void execute(String command) {
         String[] input = command.split("\\|");
         if (input.length != 2) {
-            view.write("Неверное количество параметров, формат команды:\n" + format());
+            view.write("Неверное количество параметров, формат команды:\n\t" + format());
         } else {
             String tableName = input[1];
             manager.clear(tableName);
@@ -39,11 +39,11 @@ public class Clear implements Command {
 
     @Override
     public String format() {
-        return "\tclear|tableName";
+        return "clear|tableName";
     }
 
     @Override
     public String description() {
-        return "\t\tдля очистки всей таблицы";
+        return "для очистки всей таблицы";
     }
 }

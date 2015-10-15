@@ -31,11 +31,11 @@ public class Update implements Command {
 
     @Override
     public String format() {
-        return "\tupdate|tableName|column1|value1|column2|value2|...|columnN|valueN";
+        return "update|tableName|column1|value1|column2|value2|...|columnN|valueN";
     }
 
     @Override
     public String description() {
-        return "\t\tдля обновления записи в таблице";
+        return "для обновления записи в таблице";
     }
 }

@@ -27,7 +27,7 @@ public class Connect implements Command {
     public void execute(String command) {
         String[] data = command.split("\\|");
         if (data.length != 4) {
-            view.write("Неверное количество параметров, формат команды:\n" + format());
+            view.write("Неверное количество параметров, формат команды:\n\t" + format());
         } else {
             String database = data[1];
             String user = data[2];
@@ -39,11 +39,11 @@ public class Connect implements Command {
 
     @Override
     public String format() {
-        return "\tconnect|database|user|password";
+        return "connect|database|user|password";
     }
 
     @Override
     public String description() {
-        return "\t\tдля подключения к базе данных";
+        return "для подключения к базе данных";
     }
 }
