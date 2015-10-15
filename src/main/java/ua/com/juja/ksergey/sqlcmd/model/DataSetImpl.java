@@ -7,61 +7,32 @@ import java.util.*;
  */
 public class DataSetImpl implements DataSet {
 
-    static class Data {
-        private String name;
-        private Object value;
-
-        public Data(String key, Object value) {
-            this.name = key;
-            this.value = value;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public Object getValue() {
-            return value;
-        }
-    }
-
-    private List<Data> data = new LinkedList<>();
+    private Map<String, Object> data = new LinkedHashMap<>();
 
     @Override
     public void put(String name, Object value) {
-        data.add(new Data(name, value));
+        data.put(name, value);
     }
 
     @Override
     public List<Object> getValues() {
-        List<Object> result = new LinkedList<>();
-        for (Data item : data) {
-            result.add(item.getValue());
-        }
-        return result;
+        return new LinkedList<>(data.values());
     }
 
     @Override
     public Set<String> getNames() {
-        Set<String> result = new LinkedHashSet<>();
-        for (Data item : data) {
-            result.add(item.getName());
-        }
-        return result;
+        return data.keySet();
     }
 
     @Override
     public Object get(String name) {
-        for (int i = 0; i < data.size(); i++) {
-            if (data.get(i).getName().equals(name)) {
-                return data.get(i).getValue();
-            }
-        }
-        return null;
+        return data.get(name);
     }
 
     @Override
-    public void updateFrom(DataSet newValue) {
-        //TODO implement this
+    public void updateFrom(DataSet newValue) { // TODO test me
+        for (String name : newValue.getNames()) {
+            data.put(name, newValue.get(name));
+        }
     }
 }
