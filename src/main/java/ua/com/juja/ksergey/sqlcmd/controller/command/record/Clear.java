@@ -23,15 +23,17 @@ public class Clear implements Command {
     }
 
     @Override
+    public boolean validate(String command) {
+        return command.split("\\|").length == 2;
+    }
+
+    @Override
     public boolean execute(String command) {
         String[] input = command.split("\\|");
-        if (input.length != 2) {
-            view.write("Неверное количество параметров, формат команды:\n\t" + format());
-        } else {
-            String tableName = input[1];
-            manager.clear(tableName);
-            view.write("Таблица " + tableName + " очищена.");
-        }
+        String tableName = input[1];
+        manager.clear(tableName);
+        view.write("Таблица " + tableName + " очищена.");
+
         return false;
     }
 

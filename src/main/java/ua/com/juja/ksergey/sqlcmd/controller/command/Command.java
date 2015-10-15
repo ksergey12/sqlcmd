@@ -7,6 +7,8 @@ public interface Command {
 
     boolean canExecute(String command);
 
+    boolean validate(String command);
+
     boolean execute(String command);
 
     String format();

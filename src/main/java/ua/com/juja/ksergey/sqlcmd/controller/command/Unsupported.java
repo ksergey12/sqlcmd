@@ -5,7 +5,7 @@ import ua.com.juja.ksergey.sqlcmd.view.View;
 /**
  * Created by user on 07.10.15.
  */
-public class Unsupported implements Command{
+public class Unsupported implements Command {
     private View view;
 
     public Unsupported(View view) {
@@ -14,6 +14,11 @@ public class Unsupported implements Command{
 
     @Override
     public boolean canExecute(String command) {
+        return true;
+    }
+
+    @Override
+    public boolean validate(String command) {
         return true;
     }
 

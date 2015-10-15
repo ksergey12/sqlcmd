@@ -3,6 +3,7 @@ package ua.com.juja.ksergey.sqlcmd.controller.command.table;
 import ua.com.juja.ksergey.sqlcmd.controller.command.Command;
 import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
 import ua.com.juja.ksergey.sqlcmd.view.View;
+
 import java.util.Set;
 
 /**
@@ -20,6 +21,11 @@ public class TableList implements Command {
     @Override
     public boolean canExecute(String command) {
         return command.equals("list");
+    }
+
+    @Override
+    public boolean validate(String command) {
+        return true;
     }
 
     @Override

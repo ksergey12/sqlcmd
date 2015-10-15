@@ -23,6 +23,11 @@ public class Log implements Command {
     }
 
     @Override
+    public boolean validate(String command) {
+        return true;
+    }
+
+    @Override
     public boolean execute(String command) {
         if (log.isEmpty()) {
             view.write("Список команд пуст.");

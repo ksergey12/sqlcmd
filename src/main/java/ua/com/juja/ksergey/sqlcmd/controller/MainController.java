@@ -47,13 +47,20 @@ public class MainController {
             String input = view.read();
 
             for (Command command : commands) {
-                if (command.canExecute(input)) {
+                if (!command.canExecute(input)) {
+                    continue;
+                }
+
+                if (!command.validate(input)) {
+                    view.write("Неверный формат команды, ожидается:");
+                    view.write("\t" + command.format());
+                } else {
                     if (command.execute(input)) {
                         exit = true;
                     }
-                    log.add(input);
-                    break;
                 }
+                log.add(input);
+                break;
             }
         }
     }

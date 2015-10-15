@@ -21,6 +21,11 @@ public class isConnected implements Command {
     }
 
     @Override
+    public boolean validate(String command) {
+        return true;
+    }
+
+    @Override
     public boolean execute(String command) {
         view.write(String.format("Вы не можете пользоваться командой '%s' пока " +
                 "не подключитесь с помощью команды " +

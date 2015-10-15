@@ -21,17 +21,19 @@ public class Connect implements Command {
     }
 
     @Override
+    public boolean validate(String command) {
+        return command.split("\\|").length == 4;
+    }
+
+    @Override
     public boolean execute(String command) {
         String[] data = command.split("\\|");
-        if (data.length != 4) {
-            view.write("Неверное количество параметров, формат команды:\n\t" + format());
-        } else {
-            String database = data[1];
-            String user = data[2];
-            String password = data[3];
-            manager.connect(database, user, password);
-            view.write("Подключение выполнено.");
-        }
+        String database = data[1];
+        String user = data[2];
+        String password = data[3];
+        manager.connect(database, user, password);
+        view.write("Подключение выполнено.");
+
         return false;
     }
 

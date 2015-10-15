@@ -15,7 +15,7 @@ public class Help implements Command {
     private List<Command> commands;
 
     public Help(View view) {
-        this.commands =  new LinkedList<>();
+        this.commands = new LinkedList<>();
         this.view = view;
     }
 
@@ -25,9 +25,14 @@ public class Help implements Command {
     }
 
     @Override
+    public boolean validate(String command) {
+        return true;
+    }
+
+    @Override
     public boolean execute(String input) {
         view.write("Существующие команды:");
-        for(Command command : commands){
+        for (Command command : commands) {
             if (command.format() != null) {
                 view.write("\t" + command.format());
                 view.write("\t\t" + command.description());

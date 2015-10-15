@@ -6,6 +6,8 @@ import ua.com.juja.ksergey.sqlcmd.controller.command.Command;
 import ua.com.juja.ksergey.sqlcmd.controller.command.record.Clear;
 import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
 import ua.com.juja.ksergey.sqlcmd.view.View;
+
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -39,6 +41,8 @@ public class ClearTest {
 
     @Test
     public void testCanProcessClearWithParametersString() {
+        // given
+
         // when
         boolean canProcess = command.canExecute("clear|user");
 
@@ -51,11 +55,10 @@ public class ClearTest {
         // given
 
         // when
-        command.execute("clear");
+        boolean actual = command.validate("clear");
 
         // then
-        verify(view).write("Неверное количество параметров, формат команды:\n" +
-                "\tclear|tableName");
+        assertFalse(actual);
     }
 
     @Test
@@ -63,9 +66,9 @@ public class ClearTest {
         // given
 
         // when
-        command.execute("clear|table|table");
+        boolean actual = command.validate("clear|table|table");
 
         // then
-        verify(view).write("Неверное количество параметров, формат команды:\n\tclear|tableName");
+        assertFalse(actual);
     }
 }

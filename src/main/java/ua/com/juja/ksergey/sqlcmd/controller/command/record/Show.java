@@ -28,16 +28,18 @@ public class Show implements Command {
     }
 
     @Override
+    public boolean validate(String command) {
+        return command.split("\\|").length == 2;
+    }
+
+    @Override
     public boolean execute(String command) {
         String[] input = command.split("\\|");
-        if (input.length != 2) {
-            view.write("Неверное количество параметров, формат команды:\n" + format());
-        } else {
-            String tableName = input[1];
+        String tableName = input[1];
 
-            printHeader(manager.getTableColumns(tableName));
-            printTable(manager.getTableValues(tableName));
-        }
+        printHeader(manager.getTableColumns(tableName));
+        printTable(manager.getTableValues(tableName));
+
         return false;
     }
 

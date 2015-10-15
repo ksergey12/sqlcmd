@@ -24,22 +24,24 @@ public class Create implements Command {
     }
 
     @Override
+    public boolean validate(String command) {
+        return command.split("\\|").length % 2 == 0;
+    }
+
+    @Override
     public boolean execute(String command) {
         String[] input = command.split("\\|");
-        if (input.length % 2 != 0) {
-            view.write("Должно быть чётное количество параметров, формат команды:\n" + format());
-        } else {
-            String tableName = input[1];
+        String tableName = input[1];
 
-            DataSet dataSet = new DataSetImpl();
-            for (int index = 1; index < (input.length / 2); index++) {
-                String columnName = input[index * 2];
-                String value = input[index * 2 + 1];
-                dataSet.put(columnName, value);
-            }
-            manager.create(tableName, dataSet);
-            view.write("Запись была успешно создана в таблице " + tableName);
+        DataSet dataSet = new DataSetImpl();
+        for (int index = 1; index < (input.length / 2); index++) {
+            String columnName = input[index * 2];
+            String value = input[index * 2 + 1];
+            dataSet.put(columnName, value);
         }
+        manager.create(tableName, dataSet);
+        view.write("Запись была успешно создана в таблице " + tableName);
+
         return false;
     }
 

@@ -22,6 +22,11 @@ public class Update implements Command {
     }
 
     @Override
+    public boolean validate(String command) {
+        return true; // TODO implement this
+    }
+
+    @Override
     public boolean execute(String command) {
         // TODO implement update
 

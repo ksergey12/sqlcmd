@@ -19,6 +19,11 @@ public class Exit implements Command {
     }
 
     @Override
+    public boolean validate(String command) {
+        return true;
+    }
+
+    @Override
     public boolean execute(String command) {
         view.write("До скорой встречи!");
         return true;
