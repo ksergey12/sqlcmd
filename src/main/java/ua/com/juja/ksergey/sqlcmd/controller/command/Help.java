@@ -59,7 +59,7 @@ public class Help implements Command {
         view.write(log.format());
         view.write(log.description());
 
-        Command exit = new Exit();
+        Command exit = new Exit(view);
         view.write(exit.format());
         view.write(exit.description());
     }

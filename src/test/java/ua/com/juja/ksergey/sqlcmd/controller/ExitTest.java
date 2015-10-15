@@ -16,14 +16,13 @@ import static org.mockito.Mockito.verify;
  * Created by user on 12.10.15.
  */
 public class ExitTest {
-    //    private DatabaseManager manager;
     private View view;
     private Command command;
 
     @Before
     public void setup() {
         view = mock(View.class);
-        command = new Exit();
+        command = new Exit(view);
     }
 
     @Test

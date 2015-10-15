@@ -29,7 +29,7 @@ public class DatabaseManagerTest {
         Set<String> tableNames = manager.getTableNames();
 
         // then
-        assertEquals("[user, test]", tableNames.toString()); // TODO fix order
+        assertEquals("[test, user]", tableNames.toString());
     }
 
     @Test

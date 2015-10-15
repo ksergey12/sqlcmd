@@ -13,9 +13,6 @@ public class Exit implements Command {
         this.view = view;
     }
 
-    public Exit(){
-    }
-
     @Override
     public boolean canExecute(String command) {
         return command.equals("exit");
