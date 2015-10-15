@@ -19,7 +19,7 @@ public class Console implements View {
             Scanner scanner = new Scanner(System.in);
             return scanner.nextLine();
         } catch (NoSuchElementException e) {
-            return null;
+            throw new RuntimeException(e);
         }
     }
 }

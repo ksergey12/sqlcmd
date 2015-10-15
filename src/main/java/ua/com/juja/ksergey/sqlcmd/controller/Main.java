@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             View view = new Console();
-            DatabaseManager manager = new JDBCDatabaseManager();
+            DatabaseManager manager = new JDBCDatabaseManager(view);
             MainController controller = new MainController(view, manager);
             controller.run();
         }catch (ExitException e){
