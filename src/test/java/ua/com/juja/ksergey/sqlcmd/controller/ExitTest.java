@@ -1,5 +1,6 @@
 package ua.com.juja.ksergey.sqlcmd.controller;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import ua.com.juja.ksergey.sqlcmd.controller.command.Command;
@@ -52,14 +53,10 @@ public class ExitTest {
         // given
 
         // when
-        try {
-            command.execute("exit");
-            fail("Expected ExitException");
-        } catch (ExitException e) {
-            // NOP
-        }
+        boolean exit = command.execute("exit");
 
         // then
+        assertTrue(exit);
         verify(view).write("До скорой встречи!");
     }
 }

@@ -12,13 +12,10 @@ import ua.com.juja.ksergey.sqlcmd.view.View;
 public class Main {
 
     public static void main(String[] args) {
-        try {
-            View view = new Console();
-            DatabaseManager manager = new JDBCDatabaseManager(view);
-            MainController controller = new MainController(view, manager);
-            controller.run();
-        }catch (ExitException e){
-            e.printStackTrace();
-        }
+        View view = new Console();
+        DatabaseManager manager = new JDBCDatabaseManager(view);
+        MainController controller = new MainController(view, manager);
+
+        controller.run();
     }
 }

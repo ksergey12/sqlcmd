@@ -31,7 +31,7 @@ public class Show implements Command {
     }
 
     @Override
-    public void execute(String command) {
+    public boolean execute(String command) {
         String[] input = command.split("\\|");
         if (input.length != 2) {
             view.write("Неверное количество параметров, формат команды:\n" + format());
@@ -43,6 +43,7 @@ public class Show implements Command {
             List<DataSet> values = manager.getTableValues(tableName);
             printTable(values);
         }
+        return false;
     }
 
     private void printTable(List<DataSet> tableData) {

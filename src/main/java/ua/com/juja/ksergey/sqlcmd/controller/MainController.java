@@ -20,9 +20,12 @@ public class MainController {
 
     public MainController(View view, DatabaseManager manager) {
         this.view = view;
+
+        Help help = new Help(view);
+
         this.commands = new Command[]{
                 new Connect(manager, view),
-                new Help(view),
+                help,
                 new Log(view, log),
                 new Exit(view),
                 new isConnected(manager, view),
@@ -33,24 +36,25 @@ public class MainController {
                 new TableList(manager, view),
                 new Unsupported(view),
         };
+
+        help.addCommands(commands);
     }
 
     public void run() {
-        try {
-            while (true) {
-                view.write("Введите команду или help для помощи:");
-                String input = view.read();
+        boolean exit = false;
+        while (!exit) {
+            view.write("Введите команду или help для помощи:");
+            String input = view.read();
 
-                for (Command command : commands) {
-                    if (command.canExecute(input)) {
-                        command.execute(input);
-                        log.add(input);
-                        break;
+            for (Command command : commands) {
+                if (command.canExecute(input)) {
+                    if (command.execute(input)) {
+                        exit = true;
                     }
+                    log.add(input);
+                    break;
                 }
             }
-        } catch (ExitException e) {
-            //NOP
         }
     }
 }

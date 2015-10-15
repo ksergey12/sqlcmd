@@ -18,17 +18,18 @@ public class Unsupported implements Command{
     }
 
     @Override
-    public void execute(String command) {
+    public boolean execute(String command) {
         view.write("Несуществующая команда: " + command);
+        return false;
     }
 
     @Override
     public String format() {
-        return "";
+        return null;
     }
 
     @Override
     public String description() {
-        return "";
+        return null;
     }
 }

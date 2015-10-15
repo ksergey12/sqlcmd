@@ -24,7 +24,7 @@ public class Connect implements Command {
     }
 
     @Override
-    public void execute(String command) {
+    public boolean execute(String command) {
         String[] data = command.split("\\|");
         if (data.length != 4) {
             view.write("Неверное количество параметров, формат команды:\n\t" + format());
@@ -35,6 +35,7 @@ public class Connect implements Command {
             manager.connect(database, user, password);
             view.write("Подключение выполнено.");
         }
+        return false;
     }
 
     @Override

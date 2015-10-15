@@ -27,10 +27,11 @@ public class TableList implements Command {
 
 
     @Override
-    public void execute(String command) {
+    public boolean execute(String command) {
         Set<String> tableNames = manager.getTableNames();
         String message = tableNames.toString();
         view.write(message);
+        return false;
     }
 
     @Override

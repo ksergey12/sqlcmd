@@ -26,7 +26,7 @@ public class Clear implements Command {
     }
 
     @Override
-    public void execute(String command) {
+    public boolean execute(String command) {
         String[] input = command.split("\\|");
         if (input.length != 2) {
             view.write("Неверное количество параметров, формат команды:\n\t" + format());
@@ -35,6 +35,7 @@ public class Clear implements Command {
             manager.clear(tableName);
             view.write("Таблица " + tableName + " очищена.");
         }
+        return false;
     }
 
     @Override

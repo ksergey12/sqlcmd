@@ -10,14 +10,11 @@ import java.util.List;
  */
 public class Log implements Command {
     private View view;
-    private List<String> log = new ArrayList<>();
+    private List<String> log;
 
     public Log(View view, List<String> log) {
         this.view = view;
         this.log = log;
-    }
-
-    public Log() {
     }
 
     @Override
@@ -26,14 +23,15 @@ public class Log implements Command {
     }
 
     @Override
-    public void execute(String command) {
-        if (log.isEmpty())
+    public boolean execute(String command) {
+        if (log.isEmpty()) {
             view.write("Список команд пуст.");
-        else {
+        } else {
             for (int i = 0; i < log.size(); i++) {
                 view.write((i + 1) + ". " + log.get(i));
             }
         }
+        return false;
     }
 
     @Override

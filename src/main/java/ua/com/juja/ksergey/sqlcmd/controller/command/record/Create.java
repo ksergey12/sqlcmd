@@ -27,7 +27,7 @@ public class Create implements Command {
     }
 
     @Override
-    public void execute(String command) {
+    public boolean execute(String command) {
         String[] input = command.split("\\|");
         if (input.length % 2 != 0) {
             view.write("Должно быть чётное количество параметров, формат команды:\n" + format());
@@ -43,6 +43,7 @@ public class Create implements Command {
             manager.create(tableName, dataSet);
             view.write("Запись была успешно создана в таблице " + tableName);
         }
+        return false;
     }
 
     @Override

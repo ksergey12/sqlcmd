@@ -4,6 +4,7 @@ import ua.com.juja.ksergey.sqlcmd.controller.command.record.*;
 import ua.com.juja.ksergey.sqlcmd.controller.command.table.*;
 import ua.com.juja.ksergey.sqlcmd.view.View;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,12 +15,11 @@ import java.util.List;
 public class Help implements Command {
 
     private View view;
+    private List<Command> commands;
 
     public Help(View view) {
+        this.commands =  new LinkedList<>();
         this.view = view;
-    }
-
-    public Help() {
     }
 
     @Override
@@ -28,18 +28,21 @@ public class Help implements Command {
     }
 
     @Override
-    public void execute(String input) {
+    public boolean execute(String input) {
         view.write("Существующие команды:");
         List<Command> commands = new LinkedList<>();
         commands.addAll(Arrays.asList(new Connect(),
                 new TableList(), new Clear(), new Show(),
-                new Create(), new Update(), new Help(),
-                new Log(), new Exit(view)));
+                new Create(), new Update(), new Help(view),
+                new Log(view, new ArrayList<String>()), new Exit(view)));
 
         for(Command command : commands){
-            view.write("\t" + command.format());
-            view.write("\t\t" + command.description());
+            if (command.format() != null) {
+                view.write("\t" + command.format());
+                view.write("\t\t" + command.description());
+            }
         }
+        return false;
     }
 
     @Override
@@ -50,5 +53,9 @@ public class Help implements Command {
     @Override
     public String description() {
         return "для вывода этого списка на экран";
+    }
+
+    public void addCommands(Command... commands) {
+        this.commands.addAll(Arrays.asList(commands));
     }
 }
