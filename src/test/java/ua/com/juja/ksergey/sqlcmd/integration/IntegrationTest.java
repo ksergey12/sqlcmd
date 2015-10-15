@@ -10,6 +10,11 @@ import static org.junit.Assert.assertEquals;
 public class IntegrationTest {
     private ConsoleMock console = new ConsoleMock();
 
+    private void assertOut(String string) {
+        assertEquals(string.replaceAll("\n", System.lineSeparator()),
+                console.getOut());
+    }
+
     @Test
     public void testHelp() {
         // given
@@ -20,7 +25,7 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Введите команду или help для помощи:\n" +
+        assertOut("Введите команду или help для помощи:\n" +
                 "Существующие команды:\n" +
                 "\tconnect|database|user|password\n" +
                 "\t\tдля подключения к базе данных\n" +
@@ -41,7 +46,7 @@ public class IntegrationTest {
                 "\texit\n" +
                 "\t\tдля выхода из программы\n" +
                 "Введите команду или help для помощи:\n" +
-                "До скорой встречи!\n", console.getOut());
+                "До скорой встречи!\n");
     }
 
     @Test
@@ -54,10 +59,10 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Введите команду или help для помощи:\n" +
+        assertOut("Введите команду или help для помощи:\n" +
                 "Список команд пуст.\n" +
                 "Введите команду или help для помощи:\n" +
-                "До скорой встречи!\n", console.getOut());
+                "До скорой встречи!\n");
     }
 
     @Test
@@ -72,7 +77,7 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Введите команду или help для помощи:\n" +
+        assertOut("Введите команду или help для помощи:\n" +
                 "Вы не можете пользоваться командой 'command1' пока не подключитесь с помощью команды connect|database|user|password\n" +
                 "Введите команду или help для помощи:\n" +
                 "Вы не можете пользоваться командой 'command2' пока не подключитесь с помощью команды connect|database|user|password\n" +
@@ -80,7 +85,7 @@ public class IntegrationTest {
                 "1. command1\n" +
                 "2. command2\n" +
                 "Введите команду или help для помощи:\n" +
-                "До скорой встречи!\n", console.getOut());
+                "До скорой встречи!\n");
     }
 
     @Test
@@ -94,7 +99,7 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Введите команду или help для помощи:\n" +
+        assertOut("Введите команду или help для помощи:\n" +
                 "Существующие команды:\n" +
                 "\tconnect|database|user|password\n" +
                 "\t\tдля подключения к базе данных\n" +
@@ -117,7 +122,7 @@ public class IntegrationTest {
                 "Введите команду или help для помощи:\n" +
                 "1. help\n" +
                 "Введите команду или help для помощи:\n" +
-                "До скорой встречи!\n", console.getOut());
+                "До скорой встречи!\n");
     }
 
     @Test
@@ -129,8 +134,8 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Введите команду или help для помощи:\n" +
-                "До скорой встречи!\n", console.getOut());
+        assertOut("Введите команду или help для помощи:\n" +
+                "До скорой встречи!\n");
     }
 
     @Test
@@ -143,10 +148,10 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Введите команду или help для помощи:\n" +
+        assertOut("Введите команду или help для помощи:\n" +
                 "Вы не можете пользоваться командой 'list' пока не подключитесь с помощью команды connect|database|user|password\n" +
                 "Введите команду или help для помощи:\n" +
-                "До скорой встречи!\n", console.getOut());
+                "До скорой встречи!\n");
     }
 
     @Test
@@ -159,10 +164,10 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Введите команду или help для помощи:\n" +
+        assertOut("Введите команду или help для помощи:\n" +
                 "Вы не можете пользоваться командой 'show|user' пока не подключитесь с помощью команды connect|database|user|password\n" +
                 "Введите команду или help для помощи:\n" +
-                "До скорой встречи!\n", console.getOut());
+                "До скорой встречи!\n");
     }
 
     @Test
@@ -177,7 +182,7 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Введите команду или help для помощи:\n" +
+        assertOut("Введите команду или help для помощи:\n" +
                 "Подключение выполнено.\n" +
                 "Введите команду или help для помощи:\n" +
                 "Таблица user очищена.\n" +
@@ -187,7 +192,7 @@ public class IntegrationTest {
                 "-----------------------\n" +
                 "-----------------------\n" +
                 "Введите команду или help для помощи:\n" +
-                "До скорой встречи!\n", console.getOut());
+                "До скорой встречи!\n");
     }
 
     @Test
@@ -204,7 +209,7 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Введите команду или help для помощи:\n" +
+        assertOut("Введите команду или help для помощи:\n" +
                 "Подключение выполнено.\n" +
                 "Введите команду или help для помощи:\n" +
                 "Таблица user очищена.\n" +
@@ -220,7 +225,7 @@ public class IntegrationTest {
                 "Petia\t654321\t2\t\n" +
                 "-----------------------\n" +
                 "Введите команду или help для помощи:\n" +
-                "До скорой встречи!\n", console.getOut());
+                "До скорой встречи!\n");
     }
 
     @Test
@@ -233,10 +238,10 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Введите команду или help для помощи:\n" +
+        assertOut("Введите команду или help для помощи:\n" +
                 "Вы не можете пользоваться командой 'unsupported' пока не подключитесь с помощью команды connect|database|user|password\n" +
                 "Введите команду или help для помощи:\n" +
-                "До скорой встречи!\n", console.getOut());
+                "До скорой встречи!\n");
     }
 
     @Test
@@ -250,12 +255,12 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Введите команду или help для помощи:\n" +
+        assertOut("Введите команду или help для помощи:\n" +
                 "Подключение выполнено.\n" +
                 "Введите команду или help для помощи:\n" +
                 "Несуществующая команда: unsupported\n" +
                 "Введите команду или help для помощи:\n" +
-                "До скорой встречи!\n", console.getOut());
+                "До скорой встречи!\n");
     }
 
     @Test
@@ -269,12 +274,12 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Введите команду или help для помощи:\n" +
+        assertOut("Введите команду или help для помощи:\n" +
                 "Подключение выполнено.\n" +
                 "Введите команду или help для помощи:\n" +
                 "[test, user]\n" +
                 "Введите команду или help для помощи:\n" +
-                "До скорой встречи!\n", console.getOut());
+                "До скорой встречи!\n");
     }
 
     @Test
@@ -290,7 +295,7 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Введите команду или help для помощи:\n" +
+        assertOut("Введите команду или help для помощи:\n" +
                 "Подключение выполнено.\n" +
                 "Введите команду или help для помощи:\n" +
                 "[test, user]\n" +
@@ -300,7 +305,7 @@ public class IntegrationTest {
                 "Введите команду или help для помощи:\n" +
                 "Вы не можете пользоваться командой 'list' пока не подключитесь с помощью команды connect|database|user|password\n" +
                 "Введите команду или help для помощи:\n" +
-                "До скорой встречи!\n", console.getOut());
+                "До скорой встречи!\n");
     }
 
     @Test
@@ -313,11 +318,11 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Введите команду или help для помощи:\n" +
+        assertOut("Введите команду или help для помощи:\n" +
                 "Неверное количество параметров, формат команды:\n" +
                 "\tconnect|database|user|password\n" +
                 "Введите команду или help для помощи:\n" +
-                "До скорой встречи!\n", console.getOut());
+                "До скорой встречи!\n");
     }
 
     @Test
@@ -331,12 +336,12 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         // then
-        assertEquals("Введите команду или help для помощи:\n" +
+        assertOut("Введите команду или help для помощи:\n" +
                 "Подключение выполнено.\n" +
                 "Введите команду или help для помощи:\n" +
                 "Неверное количество параметров, формат команды:\n" +
                 "\tclear|tableName\n" +
                 "Введите команду или help для помощи:\n" +
-                "До скорой встречи!\n", console.getOut());
+                "До скорой встречи!\n");
     }
 }
