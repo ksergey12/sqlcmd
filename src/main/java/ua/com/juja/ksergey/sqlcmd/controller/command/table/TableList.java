@@ -17,9 +17,6 @@ public class TableList implements Command {
         this.view = view;
     }
 
-    public TableList() {
-    }
-
     @Override
     public boolean canExecute(String command) {
         return command.equals("list");

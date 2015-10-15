@@ -17,9 +17,6 @@ public class Clear implements Command {
         this.view = view;
     }
 
-    public Clear() {
-    }
-
     @Override
     public boolean canExecute(String command) {
         return command.startsWith("clear");

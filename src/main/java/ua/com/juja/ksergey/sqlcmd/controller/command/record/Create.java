@@ -18,9 +18,6 @@ public class Create implements Command {
         this.view = view;
     }
 
-    public Create() {
-    }
-
     @Override
     public boolean canExecute(String command) {
         return command.startsWith("create");

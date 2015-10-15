@@ -29,22 +29,22 @@ public class IntegrationTest {
                 "Существующие команды:\n" +
                 "\tconnect|database|user|password\n" +
                 "\t\tдля подключения к базе данных\n" +
-                "\tlist\n" +
-                "\t\tдля получения списка всех таблиц подключённой базы\n" +
-                "\tclear|tableName\n" +
-                "\t\tдля очистки всей таблицы\n" +
-                "\tshow|tableName\n" +
-                "\t\tдля получения содержимого таблицы 'tableName'\n" +
-                "\tcreate|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
-                "\t\tдля создания записи в таблице\n" +
-                "\tupdate|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
-                "\t\tдля обновления записи в таблице\n" +
                 "\thelp\n" +
                 "\t\tдля вывода этого списка на экран\n" +
                 "\tlog\n" +
                 "\t\tдля вывода истории введённых команд\n" +
                 "\texit\n" +
                 "\t\tдля выхода из программы\n" +
+                "\tshow|tableName\n" +
+                "\t\tдля получения содержимого таблицы 'tableName'\n" +
+                "\tupdate|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
+                "\t\tдля обновления записи в таблице\n" +
+                "\tclear|tableName\n" +
+                "\t\tдля очистки всей таблицы\n" +
+                "\tcreate|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
+                "\t\tдля создания записи в таблице\n" +
+                "\tlist\n" +
+                "\t\tдля получения списка всех таблиц подключённой базы\n" +
                 "Введите команду или help для помощи:\n" +
                 "До скорой встречи!\n");
     }
@@ -103,22 +103,22 @@ public class IntegrationTest {
                 "Существующие команды:\n" +
                 "\tconnect|database|user|password\n" +
                 "\t\tдля подключения к базе данных\n" +
-                "\tlist\n" +
-                "\t\tдля получения списка всех таблиц подключённой базы\n" +
-                "\tclear|tableName\n" +
-                "\t\tдля очистки всей таблицы\n" +
-                "\tshow|tableName\n" +
-                "\t\tдля получения содержимого таблицы 'tableName'\n" +
-                "\tcreate|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
-                "\t\tдля создания записи в таблице\n" +
-                "\tupdate|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
-                "\t\tдля обновления записи в таблице\n" +
                 "\thelp\n" +
                 "\t\tдля вывода этого списка на экран\n" +
                 "\tlog\n" +
                 "\t\tдля вывода истории введённых команд\n" +
                 "\texit\n" +
                 "\t\tдля выхода из программы\n" +
+                "\tshow|tableName\n" +
+                "\t\tдля получения содержимого таблицы 'tableName'\n" +
+                "\tupdate|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
+                "\t\tдля обновления записи в таблице\n" +
+                "\tclear|tableName\n" +
+                "\t\tдля очистки всей таблицы\n" +
+                "\tcreate|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
+                "\t\tдля создания записи в таблице\n" +
+                "\tlist\n" +
+                "\t\tдля получения списка всех таблиц подключённой базы\n" +
                 "Введите команду или help для помощи:\n" +
                 "1. help\n" +
                 "Введите команду или help для помощи:\n" +

@@ -16,9 +16,6 @@ public class Update implements Command {
         this.view = view;
     }
 
-    public Update() {
-    }
-
     @Override
     public boolean canExecute(String command) {
         return command.startsWith("update");

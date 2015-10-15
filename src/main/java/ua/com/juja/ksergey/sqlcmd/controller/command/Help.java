@@ -1,10 +1,7 @@
 package ua.com.juja.ksergey.sqlcmd.controller.command;
 
-import ua.com.juja.ksergey.sqlcmd.controller.command.record.*;
-import ua.com.juja.ksergey.sqlcmd.controller.command.table.*;
 import ua.com.juja.ksergey.sqlcmd.view.View;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,12 +27,6 @@ public class Help implements Command {
     @Override
     public boolean execute(String input) {
         view.write("Существующие команды:");
-        List<Command> commands = new LinkedList<>();
-        commands.addAll(Arrays.asList(new Connect(),
-                new TableList(), new Clear(), new Show(),
-                new Create(), new Update(), new Help(view),
-                new Log(view, new ArrayList<String>()), new Exit(view)));
-
         for(Command command : commands){
             if (command.format() != null) {
                 view.write("\t" + command.format());

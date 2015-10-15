@@ -22,9 +22,6 @@ public class Show implements Command {
         this.view = view;
     }
 
-    public Show() {
-    }
-
     @Override
     public boolean canExecute(String command) {
         return command.startsWith("show");

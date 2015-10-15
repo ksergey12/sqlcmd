@@ -15,9 +15,6 @@ public class Connect implements Command {
         this.view = view;
     }
 
-    public Connect() {
-    }
-
     @Override
     public boolean canExecute(String command) {
         return command.startsWith("connect");
