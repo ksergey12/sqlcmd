@@ -35,10 +35,8 @@ public class Show implements Command {
         } else {
             String tableName = input[1];
 
-            Set<String> columns = manager.getTableColumns(tableName);
-            printHeader(columns);
-            List<DataSet> values = manager.getTableValues(tableName);
-            printTable(values);
+            printHeader(manager.getTableColumns(tableName));
+            printTable(manager.getTableValues(tableName));
         }
         return false;
     }

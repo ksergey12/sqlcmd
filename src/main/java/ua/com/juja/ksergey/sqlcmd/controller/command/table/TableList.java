@@ -22,12 +22,9 @@ public class TableList implements Command {
         return command.equals("list");
     }
 
-
     @Override
     public boolean execute(String command) {
-        Set<String> tableNames = manager.getTableNames();
-        String message = tableNames.toString();
-        view.write(message);
+        view.write(manager.getTableNames().toString());
         return false;
     }
 
