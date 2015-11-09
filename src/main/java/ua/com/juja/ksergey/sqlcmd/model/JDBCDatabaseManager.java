@@ -16,6 +16,9 @@ public class JDBCDatabaseManager implements DatabaseManager {
         this.view = view;
     }
 
+    public JDBCDatabaseManager() {
+    }
+
     @Override
     public Set<String> getTableNames() {
         Set<String> tables = new LinkedHashSet<>();

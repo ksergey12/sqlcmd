@@ -15,10 +15,17 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class MainServlet extends HttpServlet{
 
+    private Service service;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        service = new ServiceImpl();
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = getAction(req);
-        Service service = new ServiceImpl();
 
         if (action.startsWith("/menu") || action.equals("/")) {
             req.setAttribute("items", service.commandsList());
@@ -37,5 +44,24 @@ public class MainServlet extends HttpServlet{
     private String getAction(HttpServletRequest req) {
         String requestURI = req.getRequestURI();
         return requestURI.substring(req.getContextPath().length(), requestURI.length());
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = getAction(req);
+
+        if (action.startsWith("/connect")) {
+            String database = req.getParameter("dbname");
+            String user = req.getParameter("username");
+            String password = req.getParameter("password");
+
+            try {
+                service.connect(database, user, password);
+                resp.sendRedirect(resp.encodeRedirectURL("menu"));
+            } catch (Exception e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+        }
     }
 }

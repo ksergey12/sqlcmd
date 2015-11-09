@@ -7,4 +7,6 @@ import java.util.List;
  */
 public interface Service {
     List<String> commandsList();
+
+    void connect(String database, String user, String password);
 }

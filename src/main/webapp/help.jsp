@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
-    <head>
-        <title>SQLCmd</title>
-    </head>
+    <%@include file="header.jsp" %>
     <body>
         <h2>Существующие команды:</h2>
         <hr />
@@ -20,6 +18,6 @@
         для создания записи в таблице<br />
         <br /><b>list</b><br />
         для получения списка всех таблиц подключённой базы<br /><br />
-        Вернуться в <a href="menu">Меню</a><br>
+        <%@include file="footer.jsp" %>
     </body>
 </html>
