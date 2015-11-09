@@ -1,5 +1,8 @@
 package ua.com.juja.ksergey.sqlcmd.controller.web;
 
+import ua.com.juja.ksergey.sqlcmd.service.Service;
+import ua.com.juja.ksergey.sqlcmd.service.ServiceImpl;
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -15,8 +18,10 @@ public class MainServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = getAction(req);
+        Service service = new ServiceImpl();
 
         if (action.startsWith("/menu") || action.equals("/")) {
+            req.setAttribute("items", service.commandsList());
             req.getRequestDispatcher("menu.jsp").forward(req, resp);
         } else if (action.startsWith("/help")) {
             req.getRequestDispatcher("help.jsp").forward(req, resp);
