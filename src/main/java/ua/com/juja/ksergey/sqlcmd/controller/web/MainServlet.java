@@ -1,5 +1,6 @@
 package ua.com.juja.ksergey.sqlcmd.controller.web;
 
+import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
 import ua.com.juja.ksergey.sqlcmd.service.Service;
 import ua.com.juja.ksergey.sqlcmd.service.ServiceImpl;
 
@@ -26,16 +27,44 @@ public class MainServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = getAction(req);
+        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+
+        if (action.startsWith("/connect")) {
+            if (manager == null) {
+                req.getRequestDispatcher("connect.jsp").forward(req, resp);
+            } else {
+                resp.sendRedirect(resp.encodeRedirectURL("menu"));
+            }
+            return;
+        }
+
+        if (manager == null) {
+            resp.sendRedirect(resp.encodeRedirectURL("connect"));
+            return;
+        }
 
         if (action.startsWith("/menu") || action.equals("/")) {
             req.setAttribute("items", service.commandsList());
             req.getRequestDispatcher("menu.jsp").forward(req, resp);
+
         } else if (action.startsWith("/help")) {
             req.getRequestDispatcher("help.jsp").forward(req, resp);
-        } else if (action.startsWith("/connect")) {
-            req.getRequestDispatcher("connect.jsp").forward(req, resp);
+
+        }else if (action.startsWith("/show")) {
+            String table = req.getParameter("table");
+            req.setAttribute("table", service.show(manager, table));
+            req.getRequestDispatcher("show.jsp").forward(req, resp);
+
+        } else if (action.startsWith("/list")) {
+            req.setAttribute("items", service.list(manager));
+            req.getRequestDispatcher("list.jsp").forward(req, resp);
+
         }else if (action.startsWith("/clear")) {
+            String table = req.getParameter("table");
+            req.setAttribute("table", table);
+            service.clear(manager, table);
             req.getRequestDispatcher("clear.jsp").forward(req, resp);
+
         } else {
             req.getRequestDispatcher("error.jsp").forward(req, resp);
         }
@@ -56,7 +85,8 @@ public class MainServlet extends HttpServlet{
             String password = req.getParameter("password");
 
             try {
-                service.connect(database, user, password);
+                DatabaseManager manager = service.connect(database, user, password);
+                req.getSession().setAttribute("db_manager", manager);
                 resp.sendRedirect(resp.encodeRedirectURL("menu"));
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());
