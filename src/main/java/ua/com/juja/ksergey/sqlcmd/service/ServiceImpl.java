@@ -24,13 +24,12 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public List<List<String>> show(DatabaseManager manager, String tableName) {
+    public List<List<String>> showTable(DatabaseManager manager, String table) {
         List<List<String>> result = new LinkedList<>();
 
-        List<String> columns = new LinkedList<>(manager.getTableColumns(tableName));
-        List<DataSet> tableData = manager.getTableValues(tableName);
+        List<String> columns = new LinkedList<>(manager.getTableColumns(table));
+        List<DataSet> tableData = manager.getTableValues(table);
 
-        result.add(columns);
         for (DataSet dataSet : tableData) {
             List<String> row = new ArrayList<>(columns.size());
             result.add(row);
@@ -41,6 +40,12 @@ public class ServiceImpl implements Service {
         return result;
     }
 
+    @Override
+    public List<String> showHeader(DatabaseManager manager, String table) {
+        return new LinkedList<>(manager.getTableColumns(table));
+    }
+
+    @Override
     public Set<String> list(DatabaseManager manager){
         return manager.getTableNames();
     }

@@ -3,7 +3,9 @@
 <html>
     <%@include file="header.jsp" %>
     <body>
-        ОШИБКА: ${message}<br /><br />
+    <h2>SQLCmd</h2>
+    <hr />
+        ${message}<br /><br />
         <%@include file="footer.jsp" %>
     </body>
 </html>

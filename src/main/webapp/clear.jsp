@@ -5,7 +5,7 @@
     <body>
     <h2>SQLCmd</h2>
     <hr />
-    Таблица ${table} успешно очищена.
+    Таблица '${table}' успешно очищена.
     </body>
     <%@include file="footer.jsp" %>
 </html>

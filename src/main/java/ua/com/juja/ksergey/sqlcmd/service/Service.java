@@ -1,5 +1,6 @@
 package ua.com.juja.ksergey.sqlcmd.service;
 
+import ua.com.juja.ksergey.sqlcmd.model.DataSet;
 import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
 
 import java.util.List;
@@ -13,9 +14,15 @@ public interface Service {
 
     DatabaseManager connect(String database, String user, String password);
 
-    List<List<String>> show(DatabaseManager manager, String tableName);
+    List<List<String>> showTable(DatabaseManager manager, String tableName);
+
+    List<String> showHeader(DatabaseManager manager, String table);
 
     Set<String> list(DatabaseManager manager);
 
     void clear(DatabaseManager manager, String tableName);
+
+//    Set<String> getTableColumns(DatabaseManager manager, String table);
+//
+//    List<DataSet> getTableValues(DatabaseManager manager, String table);
 }

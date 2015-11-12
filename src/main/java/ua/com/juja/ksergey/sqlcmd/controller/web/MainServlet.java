@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Created by user on 31.10.15.
  */
-public class MainServlet extends HttpServlet{
+public class MainServlet extends HttpServlet {
 
     private Service service;
 
@@ -33,7 +33,7 @@ public class MainServlet extends HttpServlet{
             if (manager == null) {
                 req.getRequestDispatcher("connect.jsp").forward(req, resp);
             } else {
-                resp.sendRedirect(resp.encodeRedirectURL("menu"));
+                resp.sendRedirect(resp.encodeRedirectURL("list"));
             }
             return;
         }
@@ -50,22 +50,26 @@ public class MainServlet extends HttpServlet{
         } else if (action.startsWith("/help")) {
             req.getRequestDispatcher("help.jsp").forward(req, resp);
 
-        }else if (action.startsWith("/show")) {
+        } else if (action.startsWith("/show")) {
             String table = req.getParameter("table");
-            req.setAttribute("table", service.show(manager, table));
+            req.setAttribute("tableName", table);
+            req.setAttribute("tableHeader", service.showHeader(manager, table));
+            req.setAttribute("table", service.showTable(manager, table));
             req.getRequestDispatcher("show.jsp").forward(req, resp);
 
         } else if (action.startsWith("/list")) {
             req.setAttribute("items", service.list(manager));
+            req.setAttribute("database", req.getSession().getAttribute("database"));
             req.getRequestDispatcher("list.jsp").forward(req, resp);
 
-        }else if (action.startsWith("/clear")) {
+        } else if (action.startsWith("/clear")) {
             String table = req.getParameter("table");
             req.setAttribute("table", table);
             service.clear(manager, table);
             req.getRequestDispatcher("clear.jsp").forward(req, resp);
 
         } else {
+            req.setAttribute("message", "Страница не найдена");
             req.getRequestDispatcher("error.jsp").forward(req, resp);
         }
     }
@@ -87,7 +91,8 @@ public class MainServlet extends HttpServlet{
             try {
                 DatabaseManager manager = service.connect(database, user, password);
                 req.getSession().setAttribute("db_manager", manager);
-                resp.sendRedirect(resp.encodeRedirectURL("menu"));
+                req.getSession().setAttribute("database", database);
+                resp.sendRedirect(resp.encodeRedirectURL("list"));
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
