@@ -1,5 +1,7 @@
 package ua.com.juja.ksergey.sqlcmd.controller.web;
 
+import ua.com.juja.ksergey.sqlcmd.model.DataSet;
+import ua.com.juja.ksergey.sqlcmd.model.DataSetImpl;
 import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
 import ua.com.juja.ksergey.sqlcmd.service.Service;
 import ua.com.juja.ksergey.sqlcmd.service.ServiceImpl;
@@ -57,6 +59,12 @@ public class MainServlet extends HttpServlet {
             req.setAttribute("table", service.showTable(manager, table));
             req.getRequestDispatcher("show.jsp").forward(req, resp);
 
+        } else if (action.startsWith("/add")) {
+            String table = req.getParameter("table");
+            req.setAttribute("tableName", table);
+            req.setAttribute("tableHeader", service.showHeader(manager, table));
+            req.getRequestDispatcher("add.jsp").forward(req, resp);
+
         } else if (action.startsWith("/list")) {
             req.setAttribute("items", service.list(manager));
             req.setAttribute("database", req.getSession().getAttribute("database"));
@@ -69,7 +77,7 @@ public class MainServlet extends HttpServlet {
             req.getRequestDispatcher("clear.jsp").forward(req, resp);
 
         } else {
-            req.setAttribute("message", "Страница не найдена");
+            req.setAttribute("message", "Страница не найдена!");
             req.getRequestDispatcher("error.jsp").forward(req, resp);
         }
     }
@@ -93,6 +101,26 @@ public class MainServlet extends HttpServlet {
                 req.getSession().setAttribute("db_manager", manager);
                 req.getSession().setAttribute("database", database);
                 resp.sendRedirect(resp.encodeRedirectURL("list"));
+            } catch (Exception e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+
+        } else if (action.startsWith("/add")) {
+            String table = req.getParameter("table");
+            String id = req.getParameter("id");
+            String user = req.getParameter("user");
+            String password = req.getParameter("password");
+
+            try {
+                DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+                DataSet input = new DataSetImpl();
+                input.put("id", id);
+                input.put("name", user);
+                input.put("password", password);
+
+                service.create(manager, table, input);
+                resp.sendRedirect(resp.encodeRedirectURL("show?table=" + table));
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);

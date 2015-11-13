@@ -2,9 +2,8 @@
 <html>
     <%@include file="header.jsp" %>
     <body>
-        <h2>SQLCmd</h2>
-        <hr />
         <h3>Существующие команды:</h3>
+        <hr />
         <b>help</b><br />
         для вывода помощи на экран<br />
         <br /><b>list</b><br />

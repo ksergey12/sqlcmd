@@ -22,7 +22,5 @@ public interface Service {
 
     void clear(DatabaseManager manager, String tableName);
 
-//    Set<String> getTableColumns(DatabaseManager manager, String table);
-//
-//    List<DataSet> getTableValues(DatabaseManager manager, String table);
+    void create(DatabaseManager manager, String tableName, DataSet input);
 }

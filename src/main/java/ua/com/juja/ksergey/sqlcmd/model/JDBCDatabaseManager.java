@@ -113,42 +113,15 @@ public class JDBCDatabaseManager implements DatabaseManager {
             }
             values = values.substring(0, values.length() - 1);
             stmt.executeUpdate("INSERT INTO public." + tableName + " (" + keys + ")" +
-                    "VALUES (" + values + ")");
+                    " VALUES (" + values + ")");
         } catch (SQLException e) {
-            view.write("Произошла ошибка:" + e.getMessage());
-        }
-    }
-
-    @Override
-    public void update(String tableName, int id, DataSet newValue) {
-        String delimiter = "%s = ?,";
-        String keys = "";
-        for (String key : newValue.getNames()) {
-            keys += key + delimiter;
-        }
-        keys = keys.substring(0, keys.length() - 1);
-        String sql = "UPDATE public." + tableName + " SET " + keys + " WHERE id = ?";
-
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            int index = 1;
-            for (Object value : newValue.getValues()) {
-                ps.setObject(index, value);
-                index++;
-            }
-            ps.setInt(index, id);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            view.write("Произошла ошибка:" + e.getMessage());
+//            view.write("Произошла ошибка:" + e.getMessage());
+            e.printStackTrace();
         }
     }
 
     @Override
     public boolean isConnected() {
         return connection != null;
-    }
-
-    @Override
-    public int getSize(String tableName) {
-        throw new UnsupportedOperationException();
     }
 }

@@ -7,11 +7,20 @@
                 var tbody = document.getElementById(id).getElementsByTagName("TBODY")[0];
                 var row = document.createElement("TR")
                 var td1 = document.createElement("TD")
-                td1.appendChild(document.createTextNode("id"))
+                var id = document.createElement('input')
+                id.type = "text"
+                id.name = "name[]"
+                var name = document.createElement('input')
+                name.type = "text"
+                name.name = "name[]"
+                var value = document.createElement('input')
+                value.type = "text"
+                value.name = "name[]"
+                td1.appendChild(id)
                 var td2 = document.createElement("TD")
-                td2.appendChild (document.createTextNode("name"))
+                td2.appendChild (name)
                 var td3 = document.createElement("TD")
-                td3.appendChild (document.createTextNode("password"))
+                td3.appendChild (value)
                 row.appendChild(td1);
                 row.appendChild(td2);
                 row.appendChild(td3);
@@ -19,11 +28,10 @@
               }
             </script>
     <body>
-    <h2>SQLCmd</h2>
-    <hr />
     <h3>Таблица: '${tableName}'</h3>
+    <hr />
     <form action="create" method="post">
-    <table  id="table" border="1">
+    <table id="table" border="1">
         <tbody>
             <tr bgcolor="yellow">
                 <c:forEach items="${tableHeader}" var="element">
@@ -37,15 +45,15 @@
                     <tr>
                         <c:forEach items="${row}" var="element">
                             <td>
-                                <input type="text" name="value[]" value="${element}"/></td>
+                                <input readonly="true" type="text" name="value[]" value="${element}"/></td>
                             </td>
                         </c:forEach>
                     </tr>
              </c:forEach>
          </tbody>
     </table>
-    <a href="javascript://" onclick="addRow('table');return false;">Добавить строку</a><br /><br />
-    <button type="submit">Сохранить изменения</button>
+    <a href="add?table=${tableName}">Добавить запись</a><br /><br />
+    <!--a href="javascript://" onclick="addRow('table');return false;">Добавить строку</a><br /><br /-->
     </form>
     <a href="clear?table=${tableName}">Очистить таблицу</a>
     </body>

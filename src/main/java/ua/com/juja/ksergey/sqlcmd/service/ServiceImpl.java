@@ -51,6 +51,11 @@ public class ServiceImpl implements Service {
     }
 
     @Override
+    public void create(DatabaseManager manager, String tableName, DataSet input){
+        manager.create(tableName, input);
+    }
+
+    @Override
     public void clear(DatabaseManager manager,String tableName){
         manager.clear(tableName);
     }

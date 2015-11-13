@@ -3,9 +3,8 @@
 <html>
     <%@include file="header.jsp" %>
     <body>
-        <h2>SQLCmd</h2>
-        <hr />
         <h3>Список таблиц в базе '${database}'</h3>
+        <hr />
         <ol>
             <c:forEach items="${items}" var="item">
                 <li><a href="show?table=${item}">${item}</a></li>

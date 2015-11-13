@@ -20,9 +20,5 @@ public interface DatabaseManager {
 
     void create(String tableName, DataSet input);
 
-    void update(String tableName, int id, DataSet newValue);
-
     boolean isConnected();
-
-    int getSize(String tableName);
 }
