@@ -37,8 +37,6 @@ public class IntegrationTest {
                 "\t\tдля выхода из программы\n" +
                 "\tshow|tableName\n" +
                 "\t\tдля получения содержимого таблицы 'tableName'\n" +
-                "\tupdate|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
-                "\t\tдля обновления записи в таблице\n" +
                 "\tclear|tableName\n" +
                 "\t\tдля очистки всей таблицы\n" +
                 "\tcreate|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
@@ -111,8 +109,6 @@ public class IntegrationTest {
                 "\t\tдля выхода из программы\n" +
                 "\tshow|tableName\n" +
                 "\t\tдля получения содержимого таблицы 'tableName'\n" +
-                "\tupdate|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
-                "\t\tдля обновления записи в таблице\n" +
                 "\tclear|tableName\n" +
                 "\t\tдля очистки всей таблицы\n" +
                 "\tcreate|tableName|column1|value1|column2|value2|...|columnN|valueN\n" +
