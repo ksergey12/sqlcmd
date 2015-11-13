@@ -30,7 +30,6 @@ public class MainController {
                 new Exit(view),
                 new isConnected(manager, view),
                 new Show(manager, view),
-                new Update(manager, view),
                 new Clear(manager, view),
                 new Create(manager, view),
                 new TableList(manager, view),
