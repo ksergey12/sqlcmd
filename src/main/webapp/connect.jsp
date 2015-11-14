@@ -8,20 +8,20 @@
         <form action="connect" method="post">
             <table>
                 <tr>
-                    <td>Database name</td>
+                    <td>База данных</td>
                     <td><input type="text" name="dbname" value="sqlcmd" /></td>
                 </tr>
                 <tr>
-                    <td>User name</td>
+                    <td>Имя пользователя</td>
                     <td><input type="text" name="username" value="postgres" /></td>
                 </tr>
                 <tr>
-                    <td>Password</td>
+                    <td>Пароль</td>
                     <td><input type="password" name="password" value="postgres" /></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td><input type="submit" value="connect" /></td>
+                    <td><input type="submit" value="Подключиться" /></td>
                 </tr>
             </table>
         </form>

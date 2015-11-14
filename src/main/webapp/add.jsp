@@ -17,15 +17,11 @@
                 </c:forEach>
             </tr>
             <tr>
-                <td>
-                    <input type="text" name="id" value="3"/></td>
-                </td>
-                <td>
-                    <input type="text" name="user" value="NewName"/></td>
-                </td>
-                <td>
-                    <input type="text" name="password" value="NewPassword"/></td>
-                </td>
+                <c:forEach items="${tableHeader}" var="element">
+                    <td>
+                        <input type="text" name="${element}" value=""/></td>
+                    </td>
+                </c:forEach>
             </tr>
          </tbody>
     </table><br />

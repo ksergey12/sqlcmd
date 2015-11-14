@@ -63,6 +63,7 @@ public class MainServlet extends HttpServlet {
             String table = req.getParameter("table");
             req.setAttribute("tableName", table);
             req.setAttribute("tableHeader", service.showHeader(manager, table));
+            req.setAttribute("columnCount", service.showHeader(manager, table).size());
             req.getRequestDispatcher("add.jsp").forward(req, resp);
 
         } else if (action.startsWith("/list")) {
@@ -75,6 +76,10 @@ public class MainServlet extends HttpServlet {
             req.setAttribute("table", table);
             service.clear(manager, table);
             req.getRequestDispatcher("clear.jsp").forward(req, resp);
+
+        } else if (action.startsWith("/exit")) {
+            req.removeAttribute("db_manager");
+            req.getRequestDispatcher("connect.jsp").forward(req, resp);
 
         } else {
             req.setAttribute("message", "Страница не найдена!");
@@ -109,14 +114,14 @@ public class MainServlet extends HttpServlet {
         } else if (action.startsWith("/add")) {
             String table = req.getParameter("table");
             String id = req.getParameter("id");
-            String user = req.getParameter("user");
+            String name = req.getParameter("name");
             String password = req.getParameter("password");
 
             try {
                 DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
                 DataSet input = new DataSetImpl();
                 input.put("id", id);
-                input.put("name", user);
+                input.put("name", name);
                 input.put("password", password);
 
                 service.create(manager, table, input);

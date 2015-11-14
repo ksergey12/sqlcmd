@@ -55,7 +55,8 @@
     <a href="add?table=${tableName}">Добавить запись</a><br /><br />
     <!--a href="javascript://" onclick="addRow('table');return false;">Добавить строку</a><br /><br /-->
     </form>
-    <a href="clear?table=${tableName}">Очистить таблицу</a>
+    <a href="clear?table=${tableName}">Очистить таблицу</a> | 
+    <a href="exit">Выход</a>
     </body>
     <%@include file="footer.jsp" %>
 </html>

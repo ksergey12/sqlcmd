@@ -14,6 +14,8 @@
         для очистки таблицы 'tableName'<br />
         <br /><b>create?tableName</b><br />
         для создания записи в таблице 'tableName'<br />
+        <br /><b>exit</b><br />
+        для отключения от текущей базы<br />
         <%@include file="footer.jsp" %>
     </body>
 </html>
