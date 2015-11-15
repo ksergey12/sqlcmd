@@ -42,20 +42,20 @@
             </tr>
 
             <c:forEach items="${table}" var="row">
-                    <tr>
-                        <c:forEach items="${row}" var="element">
-                            <td>
-                                <input readonly="true" type="text" name="value[]" value="${element}"/></td>
-                            </td>
-                        </c:forEach>
-                    </tr>
+                <tr>
+                    <c:forEach items="${row}" var="element">
+                        <td>
+                            <input readonly="true" type="text" name="" value="${element}"/></td>
+                        </td>
+                    </c:forEach>
+                </tr>
              </c:forEach>
          </tbody>
     </table>
     <a href="add?table=${tableName}">Добавить запись</a><br /><br />
     <!--a href="javascript://" onclick="addRow('table');return false;">Добавить строку</a><br /><br /-->
     </form>
-    <a href="clear?table=${tableName}">Очистить таблицу</a> | 
+    <a href="clear?table=${tableName}">Очистить таблицу</a> |
     <a href="exit">Выход</a>
     </body>
     <%@include file="footer.jsp" %>

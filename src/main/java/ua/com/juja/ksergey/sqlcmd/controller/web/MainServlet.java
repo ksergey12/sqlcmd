@@ -6,12 +6,12 @@ import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
 import ua.com.juja.ksergey.sqlcmd.service.Service;
 import ua.com.juja.ksergey.sqlcmd.service.ServiceImpl;
 
-import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by user on 31.10.15.
@@ -113,16 +113,14 @@ public class MainServlet extends HttpServlet {
 
         } else if (action.startsWith("/add")) {
             String table = req.getParameter("table");
-            String id = req.getParameter("id");
-            String name = req.getParameter("name");
-            String password = req.getParameter("password");
 
             try {
                 DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+                List<String> tableHeader = service.showHeader(manager, table);
                 DataSet input = new DataSetImpl();
-                input.put("id", id);
-                input.put("name", name);
-                input.put("password", password);
+                for(String element : tableHeader){
+                    input.put(element, req.getParameter(element));
+                }
 
                 service.create(manager, table, input);
                 resp.sendRedirect(resp.encodeRedirectURL("show?table=" + table));
