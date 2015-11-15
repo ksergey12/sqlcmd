@@ -78,7 +78,7 @@ public class MainServlet extends HttpServlet {
             req.getRequestDispatcher("clear.jsp").forward(req, resp);
 
         } else if (action.startsWith("/exit")) {
-            req.removeAttribute("db_manager");
+            req.getSession(false).invalidate();
             req.getRequestDispatcher("connect.jsp").forward(req, resp);
 
         } else {
