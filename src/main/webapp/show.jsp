@@ -41,13 +41,14 @@
                 </c:forEach>
             </tr>
 
-            <c:forEach items="${table}" var="row">
-                <tr>
+            <c:forEach items="${table}" var="row"  varStatus="loop">
+                <tr class="${loop.index %2 == 0 ? 'even' : 'odd'}">
                     <c:forEach items="${row}" var="element">
                         <td>
                             <input readonly="true" type="text" name="" value="${element}"/></td>
                         </td>
                     </c:forEach>
+                <td><a href="edit?table=${tableName}&rowid=${loop.index}"><small>Правка</small></a></td>
                 </tr>
              </c:forEach>
          </tbody>
@@ -55,8 +56,8 @@
     <a href="add?table=${tableName}">Добавить запись</a><br /><br />
     <!--a href="javascript://" onclick="addRow('table');return false;">Добавить строку</a><br /><br /-->
     </form>
-    <a href="clear?table=${tableName}">Очистить таблицу</a> |
-    <a href="exit">Выход</a>
+    <a href="clear?">Очистить таблицу</a> |
+    <a href="exit">Отключить базу</a>
     </body>
     <%@include file="footer.jsp" %>
 </html>
