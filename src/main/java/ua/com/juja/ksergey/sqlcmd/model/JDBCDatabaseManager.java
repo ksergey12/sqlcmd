@@ -124,4 +124,23 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public boolean isConnected() {
         return connection != null;
     }
+
+    @Override
+    public void update(String tableName, DataSet input, int id) {
+        try (Statement stmt = connection.createStatement()) {
+            String sql = "UPDATE  \"" + tableName + "\" SET ";
+            int index = 0;
+            for (String element : input.getNames()) {
+                sql += element + " = '" + input.get(element) + "'";
+
+                if (input.getNames().size() > ++index) {
+                    sql += ",";
+                }
+            }
+            sql += " WHERE id = " + id;
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

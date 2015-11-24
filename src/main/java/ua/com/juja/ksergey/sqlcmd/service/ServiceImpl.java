@@ -56,6 +56,11 @@ public class ServiceImpl implements Service {
     }
 
     @Override
+    public void update(DatabaseManager manager, String tableName, DataSet input, int id) {
+        manager.update(tableName, input, id);
+    }
+
+    @Override
     public void clear(DatabaseManager manager,String tableName){
         manager.clear(tableName);
     }

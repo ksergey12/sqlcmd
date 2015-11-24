@@ -63,8 +63,16 @@ public class MainServlet extends HttpServlet {
             String table = req.getParameter("table");
             req.setAttribute("tableName", table);
             req.setAttribute("tableHeader", service.showHeader(manager, table));
-            req.setAttribute("columnCount", service.showHeader(manager, table).size());
+//            req.setAttribute("columnCount", service.showHeader(manager, table).size());
             req.getRequestDispatcher("add.jsp").forward(req, resp);
+
+        } else if (action.startsWith("/edit")) {
+            String table = req.getParameter("table");
+            req.setAttribute("tableName", table);
+            req.setAttribute("tableHeader", service.showHeader(manager, table));
+//            req.setAttribute("columnCount", service.showHeader(manager, table).size());
+            req.setAttribute("id", req.getParameter("id"));
+            req.getRequestDispatcher("edit.jsp").forward(req, resp);
 
         } else if (action.startsWith("/list")) {
             req.setAttribute("items", service.list(manager));
@@ -123,6 +131,25 @@ public class MainServlet extends HttpServlet {
                 }
 
                 service.create(manager, table, input);
+                resp.sendRedirect(resp.encodeRedirectURL("show?table=" + table));
+            } catch (Exception e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+
+        } else if (action.startsWith("/edit")) {
+            String table = req.getParameter("table");
+            int id = Integer.parseInt(req.getParameter("id"));
+
+            try {
+                DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+                List<String> tableHeader = service.showHeader(manager, table);
+                DataSet input = new DataSetImpl();
+                for(String element : tableHeader){
+                    input.put(element, req.getParameter(element));
+                }
+
+                service.update(manager, table, input, id);
                 resp.sendRedirect(resp.encodeRedirectURL("show?table=" + table));
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());
