@@ -8,7 +8,7 @@
 
     <servlet>
         <servlet-name>MainServlet</servlet-name>
-        <servlet-class>ua.com.juja.ksergey.sqlcmd.controller.web.MainServlet</servlet-class>
+        <servlet-class>ua.com.juja.ksergey.sqlcmd.controller.MainServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

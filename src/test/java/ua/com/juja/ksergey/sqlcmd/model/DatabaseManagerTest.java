@@ -34,7 +34,7 @@ public class DatabaseManagerTest {
         Set<String> tableNames = manager.getTableNames();
 
         // then
-        assertEquals("[test, user]", tableNames.toString());
+        assertEquals("[user]", tableNames.toString());
     }
 
     @Test

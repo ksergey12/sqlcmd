@@ -1,4 +1,4 @@
-package ua.com.juja.ksergey.sqlcmd.controller.web;
+package ua.com.juja.ksergey.sqlcmd.controller;
 
 import ua.com.juja.ksergey.sqlcmd.model.DataSet;
 import ua.com.juja.ksergey.sqlcmd.model.DataSetImpl;
