@@ -63,14 +63,12 @@ public class MainServlet extends HttpServlet {
             String table = req.getParameter("table");
             req.setAttribute("tableName", table);
             req.setAttribute("tableHeader", service.showHeader(manager, table));
-//            req.setAttribute("columnCount", service.showHeader(manager, table).size());
             req.getRequestDispatcher("add.jsp").forward(req, resp);
 
         } else if (action.startsWith("/edit")) {
             String table = req.getParameter("table");
             req.setAttribute("tableName", table);
             req.setAttribute("tableHeader", service.showHeader(manager, table));
-//            req.setAttribute("columnCount", service.showHeader(manager, table).size());
             req.setAttribute("id", req.getParameter("id"));
             req.getRequestDispatcher("edit.jsp").forward(req, resp);
 
@@ -125,11 +123,7 @@ public class MainServlet extends HttpServlet {
             try {
                 DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
                 List<String> tableHeader = service.showHeader(manager, table);
-                DataSet input = new DataSetImpl();
-                for(String element : tableHeader){
-                    input.put(element, req.getParameter(element));
-                }
-
+                DataSet input = getDataSet(req, tableHeader);
                 service.create(manager, table, input);
                 resp.sendRedirect(resp.encodeRedirectURL("show?table=" + table));
             } catch (Exception e) {
@@ -144,11 +138,7 @@ public class MainServlet extends HttpServlet {
             try {
                 DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
                 List<String> tableHeader = service.showHeader(manager, table);
-                DataSet input = new DataSetImpl();
-                for(String element : tableHeader){
-                    input.put(element, req.getParameter(element));
-                }
-
+                DataSet input = getDataSet(req, tableHeader);
                 service.update(manager, table, input, id);
                 resp.sendRedirect(resp.encodeRedirectURL("show?table=" + table));
             } catch (Exception e) {
@@ -156,5 +146,13 @@ public class MainServlet extends HttpServlet {
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }
         }
+    }
+
+    private DataSet getDataSet(HttpServletRequest req, List<String> tableHeader) {
+        DataSet input = new DataSetImpl();
+        for(String element : tableHeader){
+            input.put(element, req.getParameter(element));
+        }
+        return input;
     }
 }
