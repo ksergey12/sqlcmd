@@ -2,25 +2,21 @@ package ua.com.juja.ksergey.sqlcmd.model;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.juja.ksergey.sqlcmd.view.View;
 
 import java.util.List;
 import java.util.Set;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 
 /**
  * Created by user on 11.10.15.
  */
 public class DatabaseManagerTest {
     private DatabaseManager manager;
-    private View view;
 
     @Before
     public void setup() {
-        view = mock(View.class);
-        manager = new JDBCDatabaseManager(view);
+        manager = new JDBCDatabaseManager();
         manager.connect("sqlcmd", "postgres", "postgres");
     }
 
@@ -28,7 +24,6 @@ public class DatabaseManagerTest {
     public void testGetAllTableNames() {
         // given
         manager.getTableValues("user");
-        manager.getTableValues("test");
 
         // when
         Set<String> tableNames = manager.getTableNames();

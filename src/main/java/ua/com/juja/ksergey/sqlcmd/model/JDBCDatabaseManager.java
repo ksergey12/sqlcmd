@@ -1,7 +1,5 @@
 package ua.com.juja.ksergey.sqlcmd.model;
 
-import ua.com.juja.ksergey.sqlcmd.view.View;
-
 import java.sql.*;
 import java.util.*;
 
@@ -10,14 +8,6 @@ import java.util.*;
  */
 public class JDBCDatabaseManager implements DatabaseManager {
     private Connection connection;
-    private View view;
-
-    public JDBCDatabaseManager(View view) {
-        this.view = view;
-    }
-
-    public JDBCDatabaseManager() {
-    }
 
     @Override
     public Set<String> getTableNames() {
@@ -30,7 +20,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             }
             return tables;
         } catch (SQLException e) {
-            view.write("В этой базе нет таблиц.");
+            e.printStackTrace();
             return tables;
         }
     }
@@ -46,7 +36,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             }
             return tableColumns;
         } catch (Exception e) {
-            view.write("Произошла ошибка:" + e.getMessage());
+            e.printStackTrace();
             return tableColumns;
         }
     }
@@ -66,7 +56,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
                 }
             }
         } catch (SQLException e) {
-            view.write("Произошла ошибка:" + e.getMessage());
+            e.printStackTrace();
             return result;
         }
         return result;
@@ -76,15 +66,18 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public void connect(String database, String user, String password) {
         try {
             Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException cnf) {
-            view.write("Driver could not be loaded: " + cnf);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Driver could not be loaded: ", e);
         }
         try {
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + database, user,
                     password);
         } catch (SQLException e) {
-            view.write("Cant get connection: " + e);
             connection = null;
+            throw new RuntimeException(
+                    String.format("Cant get connection for database '%s', user '%s'",
+                            database, user),
+                    e);
         }
     }
 
@@ -93,7 +86,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("DELETE FROM public." + tableName);
         } catch (SQLException e) {
-            view.write("Произошла ошибка:" + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -115,15 +108,10 @@ public class JDBCDatabaseManager implements DatabaseManager {
             stmt.executeUpdate("INSERT INTO public." + tableName + " (" + keys + ")" +
                     " VALUES (" + values + ")");
         } catch (SQLException e) {
-//            view.write("Произошла ошибка:" + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    @Override
-    public boolean isConnected() {
-        return connection != null;
-    }
 
     @Override
     public void update(String tableName, DataSet input, int id) {
@@ -142,5 +130,10 @@ public class JDBCDatabaseManager implements DatabaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean isConnected() {
+        return connection != null;
     }
 }
