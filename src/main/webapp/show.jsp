@@ -16,14 +16,14 @@
                 </c:forEach>
             </tr>
 
-            <c:forEach items="${table}" var="row"  varStatus="loop">
+            <c:forEach items="${table}" var="row">
                 <tr>
                     <c:forEach items="${row}" var="element">
                         <td>
                             <input readonly="true" type="text" name="" value="${element}"/></td>
                         </td>
                     </c:forEach>
-                <td><a href="edit?table=${tableName}&id=${loop.index+1}"><small>Правка</small></a></td>
+                <td><a href="edit?table=${tableName}"><small>Правка</small></a></td>
                 </tr>
              </c:forEach>
          </tbody>
