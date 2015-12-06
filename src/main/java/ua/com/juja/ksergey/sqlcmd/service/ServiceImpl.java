@@ -1,9 +1,9 @@
 package ua.com.juja.ksergey.sqlcmd.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.juja.ksergey.sqlcmd.model.DataSet;
 import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
-import ua.com.juja.ksergey.sqlcmd.model.JDBCDatabaseManager;
 
 import java.util.*;
 
@@ -13,6 +13,9 @@ import java.util.*;
 @Component
 public class ServiceImpl implements Service {
 
+    @Autowired
+    private DatabaseManagerFactory factory;
+
     @Override
     public List<String> commandsList() {
         return Arrays.asList("help", "menu", "connect", "list", "exit");
@@ -20,7 +23,7 @@ public class ServiceImpl implements Service {
 
     @Override
     public DatabaseManager connect(String database, String user, String password) {
-        DatabaseManager manager = new JDBCDatabaseManager();
+        DatabaseManager manager = factory.createDatabaseManager();
         manager.connect(database, user, password);
         return manager;
     }
