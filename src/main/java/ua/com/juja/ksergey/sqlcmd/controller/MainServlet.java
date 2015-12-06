@@ -6,7 +6,6 @@ import ua.com.juja.ksergey.sqlcmd.model.DataSet;
 import ua.com.juja.ksergey.sqlcmd.model.DataSetImpl;
 import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
 import ua.com.juja.ksergey.sqlcmd.service.Service;
-import ua.com.juja.ksergey.sqlcmd.service.ServiceFactory;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -22,7 +21,7 @@ import java.util.List;
 public class MainServlet extends HttpServlet {
 
     @Autowired
-    private ServiceFactory serviceFactory;
+    private Service service;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -51,7 +50,7 @@ public class MainServlet extends HttpServlet {
         }
 
         if (action.startsWith("/menu") || action.equals("/")) {
-            req.setAttribute("items", serviceFactory.getService().commandsList());
+            req.setAttribute("items", service.commandsList());
             req.getRequestDispatcher("menu.jsp").forward(req, resp);
 
         } else if (action.startsWith("/help")) {
@@ -60,32 +59,32 @@ public class MainServlet extends HttpServlet {
         } else if (action.startsWith("/show")) {
             String table = req.getParameter("table");
             req.setAttribute("tableName", table);
-            req.setAttribute("tableHeader", serviceFactory.getService().showHeader(manager, table));
-            req.setAttribute("table", serviceFactory.getService().showTable(manager, table));
+            req.setAttribute("tableHeader", service.showHeader(manager, table));
+            req.setAttribute("table", service.showTable(manager, table));
             req.getRequestDispatcher("show.jsp").forward(req, resp);
 
         } else if (action.startsWith("/add")) {
             String table = req.getParameter("table");
             req.setAttribute("tableName", table);
-            req.setAttribute("tableHeader", serviceFactory.getService().showHeader(manager, table));
+            req.setAttribute("tableHeader", service.showHeader(manager, table));
             req.getRequestDispatcher("add.jsp").forward(req, resp);
 
         } else if (action.startsWith("/edit")) {
             String table = req.getParameter("table");
             req.setAttribute("tableName", table);
-            req.setAttribute("tableHeader", serviceFactory.getService().showHeader(manager, table));
+            req.setAttribute("tableHeader", service.showHeader(manager, table));
             req.setAttribute("id", req.getParameter("id"));
             req.getRequestDispatcher("edit.jsp").forward(req, resp);
 
         } else if (action.startsWith("/list")) {
-            req.setAttribute("items", serviceFactory.getService().list(manager));
+            req.setAttribute("items", service.list(manager));
             req.setAttribute("database", req.getSession().getAttribute("database"));
             req.getRequestDispatcher("list.jsp").forward(req, resp);
 
         } else if (action.startsWith("/clear")) {
             String table = req.getParameter("table");
             req.setAttribute("table", table);
-            serviceFactory.getService().clear(manager, table);
+            service.clear(manager, table);
             req.getRequestDispatcher("clear.jsp").forward(req, resp);
 
         } else if (action.startsWith("/exit")) {
@@ -113,7 +112,7 @@ public class MainServlet extends HttpServlet {
             String password = req.getParameter("password");
 
             try {
-                DatabaseManager manager = serviceFactory.getService().connect(database, user, password);
+                DatabaseManager manager = service.connect(database, user, password);
                 req.getSession().setAttribute("db_manager", manager);
                 req.getSession().setAttribute("database", database);
                 resp.sendRedirect(resp.encodeRedirectURL("list"));
@@ -127,9 +126,9 @@ public class MainServlet extends HttpServlet {
 
             try {
                 DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
-                List<String> tableHeader = serviceFactory.getService().showHeader(manager, table);
+                List<String> tableHeader = service.showHeader(manager, table);
                 DataSet input = getDataSet(req, tableHeader);
-                serviceFactory.getService().create(manager, table, input);
+                service.create(manager, table, input);
                 resp.sendRedirect(resp.encodeRedirectURL("show?table=" + table));
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());
@@ -142,9 +141,9 @@ public class MainServlet extends HttpServlet {
 
             try {
                 DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
-                List<String> tableHeader = serviceFactory.getService().showHeader(manager, table);
+                List<String> tableHeader = service.showHeader(manager, table);
                 DataSet input = getDataSet(req, tableHeader);
-                serviceFactory.getService().update(manager, table, input, id);
+                service.update(manager, table, input, id);
                 resp.sendRedirect(resp.encodeRedirectURL("show?table=" + table));
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());

@@ -10,8 +10,4 @@
     <context:annotation-config/>
     <context:component-scan base-package="ua.com.juja.ksergey.sqlcmd.service"/>
 
-    <bean id="serviceFactory" class="ua.com.juja.ksergey.sqlcmd.service.ServiceFactory">
-        <property name="service" ref="serviceImpl" />
-    </bean>
-
 </beans>
