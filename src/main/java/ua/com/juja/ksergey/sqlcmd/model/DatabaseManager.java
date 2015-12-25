@@ -23,4 +23,8 @@ public interface DatabaseManager {
     boolean isConnected();
 
     void update(String tableName, DataSet input, int id);
+
+    void dropTable(String tableName);
+
+    void createTable(String tableName);
 }

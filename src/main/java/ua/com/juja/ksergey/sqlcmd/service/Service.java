@@ -25,4 +25,8 @@ public interface Service {
     void create(DatabaseManager manager, String tableName, DataSet input);
 
     void update(DatabaseManager manager, String tableName, DataSet input, int id);
+
+    void createTable(DatabaseManager manager, String tableName);
+
+    void dropTable(DatabaseManager manager, String tableName);
 }

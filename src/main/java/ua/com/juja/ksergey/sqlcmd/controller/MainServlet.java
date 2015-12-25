@@ -87,6 +87,15 @@ public class MainServlet extends HttpServlet {
             service.clear(manager, table);
             req.getRequestDispatcher("clear.jsp").forward(req, resp);
 
+        }else if (action.startsWith("/dropTable")) {
+            String table = req.getParameter("table");
+            req.setAttribute("table", table);
+            service.dropTable(manager, table);
+            req.getRequestDispatcher("drop.jsp").forward(req, resp);
+
+        }else if (action.startsWith("/createTable")) {
+            req.getRequestDispatcher("createTable.jsp").forward(req, resp);
+
         } else if (action.startsWith("/exit")) {
             req.getSession(false).invalidate();
             req.getRequestDispatcher("connect.jsp").forward(req, resp);
@@ -144,6 +153,17 @@ public class MainServlet extends HttpServlet {
                 List<String> tableHeader = service.showHeader(manager, table);
                 DataSet input = getDataSet(req, tableHeader);
                 service.update(manager, table, input, id);
+                resp.sendRedirect(resp.encodeRedirectURL("show?table=" + table));
+            } catch (Exception e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+        } else if (action.startsWith("/createTable")) {
+            String table = req.getParameter("table");
+
+            try {
+                DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+                service.createTable(manager, table);
                 resp.sendRedirect(resp.encodeRedirectURL("show?table=" + table));
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());

@@ -7,9 +7,11 @@
         <hr />
         <ol>
             <c:forEach items="${items}" var="item">
-                <li><a href="show?table=${item}">${item}</a></li>
+                <li><a href="show?table=${item}">${item}</a> [<a href="dropTable?table=${item}">х</a>]</li>
             </c:forEach>
         </ol>
+        <br />
+
     </body>
     <%@include file="footer.jsp" %>
 </html>

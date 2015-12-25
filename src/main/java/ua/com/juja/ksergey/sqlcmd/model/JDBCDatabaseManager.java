@@ -132,6 +132,29 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
     }
 
+    public void dropTable(String tableName) {
+        try (Statement statement = connection.createStatement()) {
+            String sql = "DROP TABLE " + tableName;
+            statement.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void createTable(String tableName) {
+        try (Statement statement = connection.createStatement()) {
+            String createTableSQL = "CREATE TABLE " + tableName + "("
+                    + "ID serial PRIMARY KEY,"
+                    + "NAME VARCHAR(20) NOT NULL, "
+                    + "PASSWORD VARCHAR(20) NOT NULL "
+                    + ")";
+            statement.execute(createTableSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public boolean isConnected() {
         return connection != null;
