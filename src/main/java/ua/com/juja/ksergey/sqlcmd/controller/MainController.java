@@ -26,6 +26,12 @@ public class MainController {
         return "menu";
     }
 
+    @RequestMapping(value = "/exit", method = RequestMethod.GET)
+    public String exit(HttpSession session) {
+        session.invalidate();
+        return "connect";
+    }
+
     @RequestMapping(value = "/help", method = RequestMethod.GET)
     public String help() {
         return "help";
