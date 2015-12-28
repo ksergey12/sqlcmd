@@ -16,6 +16,10 @@
         для редактирования содержимого таблицы 'tableName'<br />
         <br /><b>clear?tableName</b><br />
         для очистки таблицы 'tableName'<br />
+        <br /><b>createTable</b><br />
+        для создания новой таблицы<br />
+        <br /><b>dropTable?tableName</b><br />
+        для удаления таблицы 'tableName'<br />
         <br /><b>exit</b><br />
         для отключения от текущей базы<br />
         <%@include file="footer.jsp" %>
