@@ -28,10 +28,9 @@
              </c:forEach>
          </tbody>
     </table>
-    <a href="add?table=${tableName}">Добавить запись</a><br /><br />
     </form>
-    <a href="clear?table=${tableName}">Очистить таблицу</a> |
-    <a href="exit">Отключить базу</a>
+    <br />
+    <a href="add?table=${tableName}">Добавить запись</a> | <a href="clear?table=${tableName}">Очистить таблицу</a>
     </body>
     <%@include file="footer.jsp" %>
 </html>
