@@ -166,6 +166,15 @@ public class MainController {
         return "clear";
     }
 
+    @RequestMapping(value = "/dropTable", method = RequestMethod.GET)
+    public String dropTable(HttpServletRequest request, HttpSession session) {
+        DatabaseManager manager = (DatabaseManager) session.getAttribute("db_manager");
+        String table = request.getParameter("table");
+        request.setAttribute("table", table);
+        service.dropTable(manager, table);
+        return "drop";
+    }
+
     private DatabaseManager getManager(HttpSession session) {
         return (DatabaseManager) session.getAttribute("db_manager");
     }
