@@ -175,6 +175,25 @@ public class MainController {
         return "drop";
     }
 
+    @RequestMapping(value = "/createTable", method = RequestMethod.GET)
+    public String createTable() {
+        return "createTable";
+    }
+
+    @RequestMapping(value = "/createTable", method = RequestMethod.POST)
+    public String creatingTable(HttpServletRequest request, HttpSession session) {
+        String table = request.getParameter("table");
+
+        try {
+            DatabaseManager manager = (DatabaseManager) session.getAttribute("db_manager");
+            service.createTable(manager, table);
+            return "redirect:/show?table="  + table;
+        } catch (Exception e) {
+            request.setAttribute("message", e.getMessage());
+            return "error";
+        }
+    }
+
     private DatabaseManager getManager(HttpSession session) {
         return (DatabaseManager) session.getAttribute("db_manager");
     }
