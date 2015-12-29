@@ -157,6 +157,15 @@ public class MainController {
         }
     }
 
+    @RequestMapping(value = "/clear", method = RequestMethod.GET)
+    public String clear(HttpServletRequest request, HttpSession session) {
+        DatabaseManager manager = (DatabaseManager) session.getAttribute("db_manager");
+        String table = request.getParameter("table");
+        request.setAttribute("table", table);
+        service.clear(manager, table);
+        return "clear";
+    }
+
     private DatabaseManager getManager(HttpSession session) {
         return (DatabaseManager) session.getAttribute("db_manager");
     }
