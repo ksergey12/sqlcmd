@@ -2,6 +2,8 @@ package ua.com.juja.ksergey.sqlcmd.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ua.com.juja.ksergey.sqlcmd.model.DataSet;
@@ -23,21 +25,21 @@ public class MainController {
     private Service service;
 
     @RequestMapping(value = {"/menu", "/"}, method = RequestMethod.GET)
-    public String menu(HttpServletRequest request, HttpSession session) {
+    public String menu(HttpSession session, Model model) {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
             return "redirect:/connect";
         }
 
-        request.setAttribute("items", service.commandsList());
+        model.addAttribute("items", service.commandsList());
         return "menu";
     }
 
     @RequestMapping(value = "/exit", method = RequestMethod.GET)
     public String exit(HttpSession session) {
         session.invalidate();
-        return "connect";
+        return "redirect:/connect";
     }
 
     @RequestMapping(value = "/help", method = RequestMethod.GET)
@@ -46,44 +48,46 @@ public class MainController {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list(HttpServletRequest request, HttpSession session) {
+    public String list(HttpSession session, Model model) {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
             return "redirect:/connect";
         }
 
-        request.setAttribute("database", session.getAttribute("database"));
-        request.setAttribute("items", service.list(manager));
+        model.addAttribute("database", session.getAttribute("database"));
+        model.addAttribute("items", service.list(manager));
         return "list";
     }
 
     @RequestMapping(value = "/show", method = RequestMethod.GET)
-    public String show(HttpServletRequest request, HttpSession session) {
+    public String show(@ModelAttribute("table") String table,
+                       HttpSession session, Model model)
+    {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
             return "redirect:/connect";
         }
 
-        String table = request.getParameter("table");
-        request.setAttribute("tableName", table);
-        request.setAttribute("tableHeader", service.showHeader(manager, table));
-        request.setAttribute("table", service.showTable(manager, table));
+        model.addAttribute("tableName", table);
+        model.addAttribute("tableHeader", service.showHeader(manager, table));
+        model.addAttribute("table", service.showTable(manager, table));
         return "show";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String add(HttpServletRequest request, HttpSession session) {
+    public String add(@ModelAttribute("table") String table,
+                      HttpSession session, Model model)
+    {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
             return "redirect:/connect";
         }
 
-        String table = request.getParameter("table");
-        request.setAttribute("tableName", table);
-        request.setAttribute("tableHeader", service.showHeader(manager, table));
+        model.addAttribute("tableName", table);
+        model.addAttribute("tableHeader", service.showHeader(manager, table));
         return "add";
     }
 
@@ -96,7 +100,7 @@ public class MainController {
             List<String> tableHeader = service.showHeader(manager, table);
             DataSet input = getDataSet(request, tableHeader);
             service.create(manager, table, input);
-            return "redirect:/show?table="  + table;
+            return "redirect:/show?table=" + table;
         } catch (Exception e) {
             request.setAttribute("message", e.getMessage());
             return "error";
@@ -123,7 +127,7 @@ public class MainController {
             List<String> tableHeader = service.showHeader(manager, table);
             DataSet input = getDataSet(request, tableHeader);
             service.update(manager, table, input, id);
-            return "redirect:/show?table="  + table;
+            return "redirect:/show?table=" + table;
         } catch (Exception e) {
             request.setAttribute("message", e.getMessage());
             return "error";
@@ -131,7 +135,8 @@ public class MainController {
     }
 
     @RequestMapping(value = "/connect", method = RequestMethod.GET)
-    public String connect(HttpSession session) {
+    public String connect(HttpSession session, Model model) {
+        model.addAttribute("connection", new Connection());
 
         if (getManager(session) == null) {
             return "connect";
@@ -141,36 +146,36 @@ public class MainController {
     }
 
     @RequestMapping(value = "/connect", method = RequestMethod.POST)
-    public String connecting(HttpServletRequest request, HttpSession session) {
-        String database = request.getParameter("dbname");
-        String user = request.getParameter("username");
-        String password = request.getParameter("password");
-
+    public String connecting(@ModelAttribute("connection") Connection connection,
+                             HttpSession session, Model model) {
         try {
-            DatabaseManager manager = service.connect(database, user, password);
+            DatabaseManager manager = service.connect(connection.getDatabase(),
+                    connection.getUser(), connection.getPassword());
             session.setAttribute("db_manager", manager);
-            session.setAttribute("database", database);
+            session.setAttribute("database", connection.getDatabase());
             return "redirect:/list";
         } catch (Exception e) {
-            request.setAttribute("message", e.getMessage());
+            model.addAttribute("message", e.getMessage());
             return "error";
         }
     }
 
     @RequestMapping(value = "/clear", method = RequestMethod.GET)
-    public String clear(HttpServletRequest request, HttpSession session) {
+    public String clear(@ModelAttribute("table") String table,
+                        HttpSession session, Model model)
+    {
         DatabaseManager manager = (DatabaseManager) session.getAttribute("db_manager");
-        String table = request.getParameter("table");
-        request.setAttribute("table", table);
+        model.addAttribute("table", table);
         service.clear(manager, table);
         return "clear";
     }
 
     @RequestMapping(value = "/dropTable", method = RequestMethod.GET)
-    public String dropTable(HttpServletRequest request, HttpSession session) {
+    public String dropTable(@ModelAttribute("table") String table,
+                            HttpSession session, Model model)
+    {
         DatabaseManager manager = (DatabaseManager) session.getAttribute("db_manager");
-        String table = request.getParameter("table");
-        request.setAttribute("table", table);
+        model.addAttribute("table", table);
         service.dropTable(manager, table);
         return "drop";
     }
@@ -181,15 +186,15 @@ public class MainController {
     }
 
     @RequestMapping(value = "/createTable", method = RequestMethod.POST)
-    public String creatingTable(HttpServletRequest request, HttpSession session) {
-        String table = request.getParameter("table");
-
+    public String creatingTable(@ModelAttribute("table") String table,
+                                HttpSession session, Model model)
+    {
         try {
             DatabaseManager manager = (DatabaseManager) session.getAttribute("db_manager");
             service.createTable(manager, table);
-            return "redirect:/show?table="  + table;
+            return "redirect:/show?table=" + table;
         } catch (Exception e) {
-            request.setAttribute("message", e.getMessage());
+            model.addAttribute("message", e.getMessage());
             return "error";
         }
     }
@@ -200,7 +205,7 @@ public class MainController {
 
     private DataSet getDataSet(HttpServletRequest req, List<String> tableHeader) {
         DataSet input = new DataSetImpl();
-        for(String element : tableHeader){
+        for (String element : tableHeader) {
             input.put(element, req.getParameter(element));
         }
         return input;
