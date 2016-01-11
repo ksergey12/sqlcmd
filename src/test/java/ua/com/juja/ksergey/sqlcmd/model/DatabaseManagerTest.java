@@ -29,7 +29,31 @@ public class DatabaseManagerTest {
         Set<String> tableNames = manager.getTableNames();
 
         // then
-        assertEquals("[user]", tableNames.toString());
+        assertEquals("[test, user]", tableNames.toString());
+    }
+
+    @Test
+    public void testCreateTable() {
+        // given
+        manager.createTable("testing");
+
+        // when
+        Set<String> tableNames = manager.getTableNames();
+
+        // then
+        assertEquals("[test, testing, user]", tableNames.toString());
+    }
+
+    @Test
+    public void testDropTable() {
+        // given
+        // when
+        manager.dropTable("testing");
+        Set<String> tableNames = manager.getTableNames();
+
+        // then
+        assertEquals("[test, user]", tableNames.toString());
+
     }
 
     @Test
@@ -51,6 +75,25 @@ public class DatabaseManagerTest {
         DataSet user = users.get(0);
         assertEquals("[name, password, id]", user.getNames().toString());
         assertEquals("[Vasia, strong_pass, 1]", user.getValues().toString());
+    }
+
+    @Test
+    public void testClear() {
+        // given
+        manager.clear("user");
+
+        DataSet input = new DataSetImpl();
+        input.put("name", "Vasia");
+        input.put("password", "strong_pass");
+        input.put("id", 1);
+        manager.create("user", input);
+
+        // when
+        manager.clear("user");
+
+        // then
+        List<DataSet> users = manager.getTableValues("user");
+        assertEquals("[]", users.toString());
     }
 
     @Test
