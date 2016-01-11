@@ -6,7 +6,7 @@
     <h3>Добавить запись в таблицу '${tableName}'</h3>
     <hr />
     <form action="add" method="post">
-    <input readonly="true" type="text" name="table" value="${tableName}" hidden /></td>
+    <input readonly="true" type="text" name="table" value="${tableName}" hidden />
     <table id="table" border="1">
         <tbody>
             <tr bgcolor="yellow">
@@ -19,7 +19,7 @@
             <tr>
                 <c:forEach items="${tableHeader}" var="element">
                     <td>
-                        <input type="text" name="${element}" value=""/></td>
+                        <input type="text" name="${element}" value=""/>
                     </td>
                 </c:forEach>
             </tr>

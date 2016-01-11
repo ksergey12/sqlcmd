@@ -30,7 +30,7 @@ public class DataSetImpl implements DataSet {
     }
 
     @Override
-    public void updateFrom(DataSet newValue) { // TODO test me
+    public void updateFrom(DataSet newValue) {
         for (String name : newValue.getNames()) {
             data.put(name, newValue.get(name));
         }

@@ -6,7 +6,7 @@
     <h3>Редактировать запись в таблице '${tableName}'</h3>
     <hr />
     <form action="edit" method="post">
-    <input readonly="true" type="text" name="table" value="${tableName}" hidden /></td>
+    <input readonly="true" type="text" name="table" value="${tableName}" hidden />
     <table id="table" border="1">
         <tbody>
             <tr bgcolor="yellow">
@@ -19,7 +19,7 @@
             <tr>
                 <c:forEach items="${tableHeader}" var="element">
                     <td>
-                        <input type="text" name="${element}" value=""/></td>
+                        <input type="text" name="${element}" value=""/>
                     </td>
                 </c:forEach>
             </tr>

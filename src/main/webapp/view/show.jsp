@@ -20,7 +20,7 @@
                 <tr>
                     <c:forEach items="${row}" var="element">
                         <td>
-                            <input readonly="true" type="text" name="" value="${element}"/></td>
+                            <input readonly="true" type="text" name="" value="${element}"/>
                         </td>
                     </c:forEach>
                 <td><a href="edit?table=${tableName}"><small>Правка</small></a></td>
