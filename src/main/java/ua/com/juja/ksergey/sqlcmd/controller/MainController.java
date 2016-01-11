@@ -6,14 +6,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import ua.com.juja.ksergey.sqlcmd.model.DataSet;
 import ua.com.juja.ksergey.sqlcmd.model.DataSetImpl;
 import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
 import ua.com.juja.ksergey.sqlcmd.service.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by User on 25.12.2015.
@@ -61,9 +61,8 @@ public class MainController {
     }
 
     @RequestMapping(value = "/show", method = RequestMethod.GET)
-    public String show(@ModelAttribute("table") String table,
-                       HttpSession session, Model model)
-    {
+    public String show(@RequestParam("table") String table,
+                       HttpSession session, Model model) {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
@@ -77,9 +76,8 @@ public class MainController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String add(@ModelAttribute("table") String table,
-                      HttpSession session, Model model)
-    {
+    public String add(@RequestParam("table") String table,
+                      HttpSession session, Model model) {
         DatabaseManager manager = getManager(session);
 
         if (manager == null) {
@@ -92,44 +90,42 @@ public class MainController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String adding(HttpServletRequest request, HttpSession session) {
-        String table = request.getParameter("table");
-
+    public String adding(@RequestParam Map<String, Object> allRequestParams,
+                         HttpSession session, Model model) {
         try {
             DatabaseManager manager = (DatabaseManager) session.getAttribute("db_manager");
-            List<String> tableHeader = service.showHeader(manager, table);
-            DataSet input = getDataSet(request, tableHeader);
+            String table = (String) allRequestParams.get("table");
+            DataSet input = getDataSet(allRequestParams);
             service.create(manager, table, input);
             return "redirect:/show?table=" + table;
         } catch (Exception e) {
-            request.setAttribute("message", e.getMessage());
+            model.addAttribute("message", e.getMessage());
             return "error";
         }
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String edit(HttpServletRequest request, HttpSession session) {
+    public String edit(@RequestParam("table") String table,
+                       HttpSession session, Model model) {
         DatabaseManager manager = (DatabaseManager) session.getAttribute("db_manager");
-        String table = request.getParameter("table");
-        request.setAttribute("tableName", table);
-        request.setAttribute("tableHeader", service.showHeader(manager, table));
-        request.setAttribute("id", request.getParameter("id"));
+        model.addAttribute("tableName", table);
+        model.addAttribute("tableHeader", service.showHeader(manager, table));
         return "edit";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String editing(HttpServletRequest request, HttpSession session) {
-        String table = request.getParameter("table");
-        int id = Integer.parseInt(request.getParameter("id"));
-
+    public String editing(@RequestParam Map<String, Object> allRequestParams,
+                          HttpSession session, Model model)
+    {
         try {
             DatabaseManager manager = (DatabaseManager) session.getAttribute("db_manager");
-            List<String> tableHeader = service.showHeader(manager, table);
-            DataSet input = getDataSet(request, tableHeader);
+            String table = (String) allRequestParams.get("table");
+            int id = Integer.parseInt(allRequestParams.get("id").toString());
+            DataSet input = getDataSet(allRequestParams);
             service.update(manager, table, input, id);
             return "redirect:/show?table=" + table;
         } catch (Exception e) {
-            request.setAttribute("message", e.getMessage());
+            model.addAttribute("message", e.getMessage());
             return "error";
         }
     }
@@ -161,9 +157,8 @@ public class MainController {
     }
 
     @RequestMapping(value = "/clear", method = RequestMethod.GET)
-    public String clear(@ModelAttribute("table") String table,
-                        HttpSession session, Model model)
-    {
+    public String clear(@RequestParam("table") String table,
+                        HttpSession session, Model model) {
         DatabaseManager manager = (DatabaseManager) session.getAttribute("db_manager");
         model.addAttribute("table", table);
         service.clear(manager, table);
@@ -171,9 +166,8 @@ public class MainController {
     }
 
     @RequestMapping(value = "/dropTable", method = RequestMethod.GET)
-    public String dropTable(@ModelAttribute("table") String table,
-                            HttpSession session, Model model)
-    {
+    public String dropTable(@RequestParam("table") String table,
+                            HttpSession session, Model model) {
         DatabaseManager manager = (DatabaseManager) session.getAttribute("db_manager");
         model.addAttribute("table", table);
         service.dropTable(manager, table);
@@ -186,9 +180,8 @@ public class MainController {
     }
 
     @RequestMapping(value = "/createTable", method = RequestMethod.POST)
-    public String creatingTable(@ModelAttribute("table") String table,
-                                HttpSession session, Model model)
-    {
+    public String creatingTable(@RequestParam("table") String table,
+                                HttpSession session, Model model) {
         try {
             DatabaseManager manager = (DatabaseManager) session.getAttribute("db_manager");
             service.createTable(manager, table);
@@ -203,10 +196,13 @@ public class MainController {
         return (DatabaseManager) session.getAttribute("db_manager");
     }
 
-    private DataSet getDataSet(HttpServletRequest req, List<String> tableHeader) {
+    private DataSet getDataSet(@RequestParam Map<String, Object> allRequestParams) {
         DataSet input = new DataSetImpl();
-        for (String element : tableHeader) {
-            input.put(element, req.getParameter(element));
+        allRequestParams.remove("table");
+        for(Map.Entry<String, Object> entry : allRequestParams.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            input.put(key, value);
         }
         return input;
     }
