@@ -14,20 +14,14 @@ public class JDBCDatabaseManager implements DatabaseManager {
     private Connection connection;
     private JdbcTemplate template;
 
-    @Override
     public Set<String> getTableNames() {
-        Set<String> tables = new LinkedHashSet<>();
-        try {
-            DatabaseMetaData dbm = connection.getMetaData();
-            ResultSet rs = dbm.getTables(null, null, "%", new String[]{"TABLE"});
-            while (rs.next()) {
-                tables.add(rs.getString("table_name"));
-            }
-            return tables;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return tables;
-        }
+        return new LinkedHashSet<>(template.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'",
+                new RowMapper<String>() {
+                    public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        return rs.getString("table_name");
+                    }
+                }
+        ));
     }
 
     @Override
@@ -155,12 +149,17 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
     }
 
+    /**
+     * @param database is a database name to create
+     * @return true if database created successfully, false is exception occurs
+     */
     @Override
-    public void createDatabase(String database) {
+    public boolean createDatabase(String database) {
         try (Statement statement = connection.createStatement()) {
             statement.execute("CREATE DATABASE " + database);
+            return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            return false;
         }
     }
 
