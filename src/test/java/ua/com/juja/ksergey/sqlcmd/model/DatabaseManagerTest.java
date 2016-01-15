@@ -25,11 +25,14 @@ public class DatabaseManagerTest {
             return;
         }
         manager = new JDBCDatabaseManager();
-        try {
-            manager.connect("postgres", "postgres", "postgres");
-            manager.createDatabase("sqlcmd");
-        } catch (Exception e) {
-            //do nothing;
+        manager.connect("postgres", "postgres", "postgres");
+
+        if(!manager.createDatabase("sqlcmd")){
+            manager.connect("sqlcmd", "postgres", "postgres");
+            Set<String> tables = manager.getTableNames();
+            for (String table : tables) {
+                manager.dropTable(table);
+            }
         }
         initIsDone = true;
     }
