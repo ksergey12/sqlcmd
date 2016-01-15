@@ -68,6 +68,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             template = new JdbcTemplate(new SingleConnectionDataSource(connection, false));
         } catch (SQLException e) {
             connection = null;
+            template = null;
             throw new RuntimeException(
                     String.format("Cant get connection for database '%s', user '%s'",
                             database, user),
@@ -77,11 +78,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public void clear(String tableName) {
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("DELETE FROM public." + tableName);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        template.execute("DELETE FROM public." + tableName);
     }
 
     @Override
