@@ -1,8 +1,9 @@
 package ua.com.juja.ksergey.sqlcmd.model;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 import static org.junit.Assert.assertEquals;
@@ -13,99 +14,108 @@ import static org.junit.Assert.assertTrue;
  */
 public class DatabaseManagerTest {
     private DatabaseManager manager;
+    private String TABLE = "table" + getRandomName();
+    private static boolean initIsDone = false;
+
+    /**
+     * Workaround for a static @BeforeClass
+     */
+    public void init() {
+        if (initIsDone) {
+            return;
+        }
+        manager = new JDBCDatabaseManager();
+        try {
+            manager.connect("postgres", "postgres", "postgres");
+            manager.createDatabase("sqlcmd");
+        } catch (Exception e) {
+            //do nothing;
+        }
+        initIsDone = true;
+    }
 
     @Before
     public void setup() {
+        init();
         manager = new JDBCDatabaseManager();
         manager.connect("sqlcmd", "postgres", "postgres");
+        manager.createTable(TABLE);
+    }
+
+    @After
+    public void cleanup() {
+        manager.dropTable(TABLE);
     }
 
     @Test
     public void testGetAllTableNames() {
         // given
-        manager.getTableValues("user");
-
         // when
         Set<String> tableNames = manager.getTableNames();
 
         // then
-        assertEquals("[test, user]", tableNames.toString());
+        assertEquals("[" + TABLE + "]", tableNames.toString());
     }
 
     @Test
-    public void testCreateTable() {
+    public void testCreateAndDropTable() {
         // given
-        manager.createTable("testing");
+        String testTable = "test" + TABLE;
+        manager.createTable(testTable);
 
         // when
         Set<String> tableNames = manager.getTableNames();
 
         // then
-        assertEquals("[test, testing, user]", tableNames.toString());
-    }
-
-    @Test
-    public void testDropTable() {
-        // given
-        // when
-        manager.dropTable("testing");
-        Set<String> tableNames = manager.getTableNames();
-
-        // then
-        assertEquals("[test, user]", tableNames.toString());
-
+        assertEquals("["+ TABLE + ", " + testTable + "]", tableNames.toString());
+        manager.dropTable(testTable);
     }
 
     @Test
     public void testGetTableData() {
         // given
-        manager.clear("user");
+        DataSet input = new DataSetImpl();
+        input.put("name", "John Smith");
+        input.put("password", "strong-pass");
+        input.put("id", 1);
 
         // when
-        DataSet input = new DataSetImpl();
-        input.put("name", "Vasia");
-        input.put("password", "strong_pass");
-        input.put("id", 1);
-        manager.create("user", input);
+        manager.create(TABLE, input);
 
         // then
-        List<DataSet> users = manager.getTableValues("user");
+        List<DataSet> users = manager.getTableValues(TABLE);
         assertEquals(1, users.size());
 
         DataSet user = users.get(0);
-        assertEquals("[name, password, id]", user.getNames().toString());
-        assertEquals("[Vasia, strong_pass, 1]", user.getValues().toString());
+        assertEquals("[id, name, password]", user.getNames().toString());
+        assertEquals("[1, John Smith, strong-pass]", user.getValues().toString());
     }
 
     @Test
     public void testClear() {
         // given
-        manager.clear("user");
-
         DataSet input = new DataSetImpl();
-        input.put("name", "Vasia");
-        input.put("password", "strong_pass");
+        input.put("name", "John Smith");
+        input.put("password", "strong-pass");
         input.put("id", 1);
-        manager.create("user", input);
+        manager.create(TABLE, input);
 
         // when
-        manager.clear("user");
+        manager.clear(TABLE);
 
         // then
-        List<DataSet> users = manager.getTableValues("user");
+        List<DataSet> users = manager.getTableValues(TABLE);
         assertEquals("[]", users.toString());
     }
 
     @Test
     public void testGetColumnNames() {
         // given
-        manager.clear("user");
-
         // when
-        Set<String> columnNames = manager.getTableColumns("user");
+        Set<String> columnNames = manager.getTableColumns(TABLE);
 
         // then
-        assertEquals("[name, password, id]", columnNames.toString());
+        assertEquals("[id, name, password]", columnNames.toString());
     }
 
     @Test
@@ -114,5 +124,9 @@ public class DatabaseManagerTest {
         // when
         // then
         assertTrue(manager.isConnected());
+    }
+
+    private String getRandomName() {
+        return new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime());
     }
 }
