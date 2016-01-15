@@ -29,4 +29,8 @@ public interface Service {
     void createTable(DatabaseManager manager, String tableName);
 
     void dropTable(DatabaseManager manager, String tableName);
+
+    void createDatabase(DatabaseManager manager, String database);
+
+    void dropDatabase(DatabaseManager manager, String database);
 }

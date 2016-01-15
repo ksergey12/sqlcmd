@@ -1,5 +1,9 @@
 package ua.com.juja.ksergey.sqlcmd.model;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+
 import java.sql.*;
 import java.util.*;
 
@@ -8,6 +12,7 @@ import java.util.*;
  */
 public class JDBCDatabaseManager implements DatabaseManager {
     private Connection connection;
+    private JdbcTemplate template;
 
     @Override
     public Set<String> getTableNames() {
@@ -41,25 +46,19 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
     }
 
-    @Override
     public List<DataSet> getTableValues(String tableName) {
-        List<DataSet> result = new ArrayList<>();
-
-        try (Statement statement = connection.createStatement()) {
-            ResultSet rs = statement.executeQuery("SELECT * FROM public." + tableName);
-            ResultSetMetaData rsmd = rs.getMetaData();
-            while (rs.next()) {
-                DataSet dataSet = new DataSetImpl();
-                result.add(dataSet);
-                for (int i = 0; i < rsmd.getColumnCount(); i++) {
-                    dataSet.put(rsmd.getColumnName(i + 1), rs.getObject(i + 1));
+        return template.query("SELECT * FROM public." + tableName,
+                new RowMapper<DataSet>() {
+                    public DataSet mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        ResultSetMetaData rsmd = rs.getMetaData();
+                        DataSet dataSet = new DataSetImpl();
+                        for (int i = 0; i < rsmd.getColumnCount(); i++) {
+                            dataSet.put(rsmd.getColumnName(i + 1), rs.getObject(i + 1));
+                        }
+                        return dataSet;
+                    }
                 }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return result;
-        }
-        return result;
+        );
     }
 
     @Override
@@ -72,6 +71,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         try {
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + database, user,
                     password);
+            template = new JdbcTemplate(new SingleConnectionDataSource(connection, false));
         } catch (SQLException e) {
             connection = null;
             throw new RuntimeException(
@@ -150,6 +150,24 @@ public class JDBCDatabaseManager implements DatabaseManager {
                     + "PASSWORD VARCHAR(20) NOT NULL "
                     + ")";
             statement.execute(createTableSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void createDatabase(String database) {
+        try (Statement statement = connection.createStatement()) {
+            statement.execute("CREATE DATABASE " + database);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void dropDatabase(String database) {
+        try (Statement statement = connection.createStatement()) {
+            statement.execute("DROP DATABASE " + database);
         } catch (SQLException e) {
             e.printStackTrace();
         }

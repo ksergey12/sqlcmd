@@ -20,6 +20,10 @@ public interface DatabaseManager {
 
     void create(String tableName, DataSet input);
 
+    void createDatabase(String database);
+
+    void dropDatabase(String database);
+
     boolean isConnected();
 
     void update(String tableName, DataSet input, int id);

@@ -79,4 +79,14 @@ public class ServiceImpl implements Service {
     public void dropTable(DatabaseManager manager, String tableName){
         manager.dropTable(tableName);
     }
+
+    @Override
+    public void createDatabase(DatabaseManager manager, String database){
+        manager.createTable(database);
+    }
+
+    @Override
+    public void dropDatabase(DatabaseManager manager, String database){
+        manager.dropTable(database);
+    }
 }
