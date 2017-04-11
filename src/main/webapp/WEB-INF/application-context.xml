@@ -10,8 +10,8 @@
     <context:annotation-config/>
     <context:component-scan base-package="ua.com.juja.ksergey.sqlcmd.service"/>
 
-    <bean id="databaseManagerFactory" class="ua.com.juja.ksergey.sqlcmd.service.DatabaseManagerFactoryImpl">
-        <property name="className" value="ua.com.juja.ksergey.sqlcmd.model.JDBCDatabaseManager"/>
+    <bean id="databaseManagerFactory" class="net.sqlcmd.service.DatabaseManagerFactoryImpl">
+        <property name="className" value="net.sqlcmd.dao.JDBCDatabaseManager"/>
     </bean>
 
 </beans>

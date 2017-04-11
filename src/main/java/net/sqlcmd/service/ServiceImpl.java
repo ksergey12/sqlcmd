@@ -1,9 +1,9 @@
-package ua.com.juja.ksergey.sqlcmd.service;
+package net.sqlcmd.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ua.com.juja.ksergey.sqlcmd.model.DataSet;
-import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
+import net.sqlcmd.model.DataSet;
+import net.sqlcmd.dao.DatabaseManager;
 
 import java.util.*;
 

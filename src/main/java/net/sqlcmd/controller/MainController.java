@@ -1,5 +1,9 @@
-package ua.com.juja.ksergey.sqlcmd.controller;
+package net.sqlcmd.controller;
 
+import net.sqlcmd.model.DataSet;
+import net.sqlcmd.model.DataSetImpl;
+import net.sqlcmd.dao.DatabaseManager;
+import net.sqlcmd.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,10 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import ua.com.juja.ksergey.sqlcmd.model.DataSet;
-import ua.com.juja.ksergey.sqlcmd.model.DataSetImpl;
-import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
-import ua.com.juja.ksergey.sqlcmd.service.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;

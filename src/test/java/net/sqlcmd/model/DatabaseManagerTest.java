@@ -1,5 +1,7 @@
-package ua.com.juja.ksergey.sqlcmd.model;
+package net.sqlcmd.model;
 
+import net.sqlcmd.dao.DatabaseManager;
+import net.sqlcmd.dao.JDBCDatabaseManager;
 import org.junit.*;
 
 import java.text.SimpleDateFormat;

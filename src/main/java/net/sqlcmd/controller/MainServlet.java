@@ -1,11 +1,11 @@
-package ua.com.juja.ksergey.sqlcmd.controller;
+package net.sqlcmd.controller;
 
+import net.sqlcmd.model.DataSet;
+import net.sqlcmd.model.DataSetImpl;
+import net.sqlcmd.dao.DatabaseManager;
+import net.sqlcmd.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
-import ua.com.juja.ksergey.sqlcmd.model.DataSet;
-import ua.com.juja.ksergey.sqlcmd.model.DataSetImpl;
-import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
-import ua.com.juja.ksergey.sqlcmd.service.Service;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

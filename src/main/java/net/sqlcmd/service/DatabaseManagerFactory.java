@@ -1,6 +1,6 @@
-package ua.com.juja.ksergey.sqlcmd.service;
+package net.sqlcmd.service;
 
-import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
+import net.sqlcmd.dao.DatabaseManager;
 
 /**
  * Created by user on 06.12.15.

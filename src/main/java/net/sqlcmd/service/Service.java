@@ -1,7 +1,7 @@
-package ua.com.juja.ksergey.sqlcmd.service;
+package net.sqlcmd.service;
 
-import ua.com.juja.ksergey.sqlcmd.model.DataSet;
-import ua.com.juja.ksergey.sqlcmd.model.DatabaseManager;
+import net.sqlcmd.model.DataSet;
+import net.sqlcmd.dao.DatabaseManager;
 
 import java.util.List;
 import java.util.Set;
