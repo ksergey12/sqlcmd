@@ -8,10 +8,9 @@
                            http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
     <context:annotation-config/>
-    <context:component-scan base-package="ua.com.juja.ksergey.sqlcmd.service"/>
+    <context:component-scan base-package="net.sqlcmd"/>
 
-    <bean id="databaseManagerFactory" class="net.sqlcmd.service.DatabaseManagerFactoryImpl">
-        <property name="className" value="net.sqlcmd.dao.JDBCDatabaseManager"/>
+    <bean id="service" class="net.sqlcmd.service.ServiceImpl">
+        <lookup-method name="getManager" bean="JDBCDatabaseManager"/>
     </bean>
-
 </beans>

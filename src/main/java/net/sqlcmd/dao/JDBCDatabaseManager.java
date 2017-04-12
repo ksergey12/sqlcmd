@@ -2,9 +2,11 @@ package net.sqlcmd.dao;
 
 import net.sqlcmd.model.DataSet;
 import net.sqlcmd.model.DataSetImpl;
+import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.util.*;
@@ -12,6 +14,8 @@ import java.util.*;
 /**
  * Created by user on 30.09.2015.
  */
+@Component
+@Scope(value="prototype")
 public class JDBCDatabaseManager implements DatabaseManager {
     private Connection connection;
     private JdbcTemplate template;

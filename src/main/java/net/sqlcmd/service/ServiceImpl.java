@@ -11,10 +11,9 @@ import java.util.*;
  * Created by Admin on 09.11.2015.
  */
 @Component
-public class ServiceImpl implements Service {
+public abstract class ServiceImpl implements Service {
 
-    @Autowired
-    private DatabaseManagerFactory factory;
+    abstract DatabaseManager getManager();
 
     @Override
     public List<String> commandsList() {
@@ -23,7 +22,7 @@ public class ServiceImpl implements Service {
 
     @Override
     public DatabaseManager connect(String database, String user, String password) {
-        DatabaseManager manager = factory.createDatabaseManager();
+        DatabaseManager manager = getManager();
         manager.connect(database, user, password);
         return manager;
     }
