@@ -10,6 +10,8 @@ import java.util.Set;
  */
 public interface DatabaseManager {
 
+    DatabaseManager NULL = new NullDatabaseManager();
+
     Set<String> getTableNames();
 
     List<DataSet> getTableValues(String tableName);

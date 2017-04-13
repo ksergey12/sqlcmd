@@ -15,7 +15,7 @@ import java.util.*;
  * Created by user on 30.09.2015.
  */
 @Component
-@Scope(value="prototype")
+@Scope(value = "prototype")
 public class JDBCDatabaseManager implements DatabaseManager {
     private Connection connection;
     private JdbcTemplate template;
@@ -31,8 +31,8 @@ public class JDBCDatabaseManager implements DatabaseManager {
     @Override
     public void connect(String database, String user, String password) {
         try {
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + database, user,
-                    password);
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/"
+                    + database, user, password);
             template = new JdbcTemplate(new SingleConnectionDataSource(connection, false));
         } catch (SQLException e) {
             connection = null;
@@ -111,7 +111,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     @Override
     public void update(String tableName, DataSet input, int id) {
         try (Statement stmt = connection.createStatement()) {
-            String sql = "UPDATE  \"" + tableName + "\" SET ";
+            String sql = "UPDATE \"" + tableName + "\" SET ";
             int index = 0;
             for (String element : input.getNames()) {
                 sql += element + " = '" + input.get(element) + "'";
