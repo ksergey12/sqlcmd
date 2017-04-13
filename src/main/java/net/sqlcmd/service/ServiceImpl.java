@@ -1,6 +1,5 @@
 package net.sqlcmd.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import net.sqlcmd.model.DataSet;
 import net.sqlcmd.dao.DatabaseManager;
@@ -81,7 +80,7 @@ public abstract class ServiceImpl implements Service {
 
     @Override
     public void createDatabase(DatabaseManager manager, String database){
-        manager.createTable(database);
+        manager.createDatabase(database);
     }
 
     @Override
