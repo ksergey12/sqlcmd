@@ -24,7 +24,7 @@ public interface DatabaseManager {
 
     void create(String tableName, DataSet input);
 
-    boolean createDatabase(String database);
+    void createDatabase(String database);
 
     void dropDatabase(String database);
 

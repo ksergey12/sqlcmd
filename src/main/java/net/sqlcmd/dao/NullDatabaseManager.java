@@ -42,8 +42,8 @@ public class NullDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public boolean createDatabase(String database) {
-        return false;
+    public void createDatabase(String database) {
+        // do nothing
     }
 
     @Override

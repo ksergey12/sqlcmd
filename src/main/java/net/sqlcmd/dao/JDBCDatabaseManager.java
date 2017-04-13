@@ -38,7 +38,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             connection = null;
             template = null;
             throw new RuntimeException(
-                    String.format("Cant get connection for database '%s', user '%s'",
+                    String.format("Can't get connection for database '%s', user '%s'",
                             database, user),
                     e);
         }
@@ -104,50 +104,38 @@ public class JDBCDatabaseManager implements DatabaseManager {
             values += value + delimiter;
         }
         values = values.substring(0, values.length() - 1);
+
         template.update("INSERT INTO public." + tableName + " (" + keys + ")" +
                 " VALUES (" + values + ")");
     }
 
     @Override
     public void update(String tableName, DataSet input, int id) {
-        try (Statement stmt = connection.createStatement()) {
-            String sql = "UPDATE \"" + tableName + "\" SET ";
-            int index = 0;
-            for (String element : input.getNames()) {
-                sql += element + " = '" + input.get(element) + "'";
+        String sql = "UPDATE \"" + tableName + "\" SET ";
+        int index = 0;
+        for (String element : input.getNames()) {
+            sql += element + " = '" + input.get(element) + "'";
 
-                if (input.getNames().size() > ++index) {
-                    sql += ",";
-                }
+            if (input.getNames().size() > ++index) {
+                sql += ",";
             }
-            sql += " WHERE id = " + id;
-            stmt.executeUpdate(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-    }
+        sql += " WHERE id = " + id;
 
-    public void dropTable(String tableName) {
-        try (Statement statement = connection.createStatement()) {
-            String sql = "DROP TABLE " + tableName;
-            statement.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        template.update(sql);
     }
 
     @Override
     public void createTable(String tableName) {
-        try (Statement statement = connection.createStatement()) {
-            String createTableSQL = "CREATE TABLE " + tableName + "("
-                    + "ID serial PRIMARY KEY,"
-                    + "NAME VARCHAR(20) NOT NULL, "
-                    + "PASSWORD VARCHAR(20) NOT NULL "
-                    + ")";
-            statement.execute(createTableSQL);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        template.execute("CREATE TABLE " + tableName + "("
+                + "ID serial PRIMARY KEY,"
+                + "NAME VARCHAR(20) NOT NULL, "
+                + "PASSWORD VARCHAR(20) NOT NULL "
+                + ")");
+    }
+
+    public void dropTable(String tableName) {
+        template.execute("DROP TABLE IF EXISTS " + tableName);
     }
 
     /**
@@ -155,22 +143,13 @@ public class JDBCDatabaseManager implements DatabaseManager {
      * @return true if database created successfully, false is exception occurs
      */
     @Override
-    public boolean createDatabase(String database) {
-        try (Statement statement = connection.createStatement()) {
-            statement.execute("CREATE DATABASE " + database);
-            return true;
-        } catch (SQLException e) {
-            return false;
-        }
+    public void createDatabase(String database) {
+        template.execute("CREATE DATABASE " + database);
     }
 
     @Override
     public void dropDatabase(String database) {
-        try (Statement statement = connection.createStatement()) {
-            statement.execute("DROP DATABASE " + database);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        template.execute("DROP DATABASE " + database);
     }
 
     @Override
