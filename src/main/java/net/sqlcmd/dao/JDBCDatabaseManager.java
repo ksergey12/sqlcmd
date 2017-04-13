@@ -20,6 +20,30 @@ public class JDBCDatabaseManager implements DatabaseManager {
     private Connection connection;
     private JdbcTemplate template;
 
+    public JDBCDatabaseManager() {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Driver could not be loaded: ", e);
+        }
+    }
+
+    @Override
+    public void connect(String database, String user, String password) {
+        try {
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + database, user,
+                    password);
+            template = new JdbcTemplate(new SingleConnectionDataSource(connection, false));
+        } catch (SQLException e) {
+            connection = null;
+            template = null;
+            throw new RuntimeException(
+                    String.format("Cant get connection for database '%s', user '%s'",
+                            database, user),
+                    e);
+        }
+    }
+
     public Set<String> getTableNames() {
         return new LinkedHashSet<>(template.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'",
                 new RowMapper<String>() {
@@ -62,27 +86,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void connect(String database, String user, String password) {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Driver could not be loaded: ", e);
-        }
-        try {
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + database, user,
-                    password);
-            template = new JdbcTemplate(new SingleConnectionDataSource(connection, false));
-        } catch (SQLException e) {
-            connection = null;
-            template = null;
-            throw new RuntimeException(
-                    String.format("Cant get connection for database '%s', user '%s'",
-                            database, user),
-                    e);
-        }
-    }
-
-    @Override
     public void clear(String tableName) {
         template.execute("DELETE FROM public." + tableName);
     }
@@ -104,7 +107,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
         template.update("INSERT INTO public." + tableName + " (" + keys + ")" +
                 " VALUES (" + values + ")");
     }
-
 
     @Override
     public void update(String tableName, DataSet input, int id) {
