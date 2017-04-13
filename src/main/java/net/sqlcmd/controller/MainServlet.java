@@ -31,78 +31,92 @@ public class MainServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = getAction(req);
-        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = getAction(request);
+        DatabaseManager manager = getManager(request);
 
         if (action.startsWith("/connect")) {
             if (manager == null) {
-                req.getRequestDispatcher("connect.jsp").forward(req, resp);
+//                request.getRequestDispatcher("connect.jsp").forward(request, response);
+                jsp("connect", request, response);
             } else {
-                resp.sendRedirect(resp.encodeRedirectURL("list"));
+//                response.sendRedirect(response.encodeRedirectURL("list"));
+                redirect("list", response);
             }
             return;
         }
 
         if (manager == null) {
-            resp.sendRedirect(resp.encodeRedirectURL("connect"));
+//            response.sendRedirect(response.encodeRedirectURL("connect"));
+            redirect("connect", response);
             return;
         }
 
         if (action.startsWith("/menu") || action.equals("/")) {
-            req.setAttribute("items", service.commandsList());
-            req.getRequestDispatcher("menu.jsp").forward(req, resp);
+            request.setAttribute("items", service.commandsList());
+//            request.getRequestDispatcher("menu.jsp").forward(request, response);
+            jsp("menu", request, response);
 
         } else if (action.startsWith("/help")) {
-            req.getRequestDispatcher("help.jsp").forward(req, resp);
+//            request.getRequestDispatcher("help.jsp").forward(request, response);
+            jsp("help", request, response);
 
         } else if (action.startsWith("/show")) {
-            String table = req.getParameter("table");
-            req.setAttribute("tableName", table);
-            req.setAttribute("tableHeader", service.showHeader(manager, table));
-            req.setAttribute("table", service.showTable(manager, table));
-            req.getRequestDispatcher("show.jsp").forward(req, resp);
+            String table = request.getParameter("table");
+            request.setAttribute("tableName", table);
+            request.setAttribute("tableHeader", service.showHeader(manager, table));
+            request.setAttribute("table", service.showTable(manager, table));
+//            request.getRequestDispatcher("show.jsp").forward(request, response);
+            jsp("show", request, response);
 
         } else if (action.startsWith("/add")) {
-            String table = req.getParameter("table");
-            req.setAttribute("tableName", table);
-            req.setAttribute("tableHeader", service.showHeader(manager, table));
-            req.getRequestDispatcher("add.jsp").forward(req, resp);
+            String table = request.getParameter("table");
+            request.setAttribute("tableName", table);
+            request.setAttribute("tableHeader", service.showHeader(manager, table));
+//            request.getRequestDispatcher("add.jsp").forward(request, response);
+            jsp("add", request, response);
 
         } else if (action.startsWith("/edit")) {
-            String table = req.getParameter("table");
-            req.setAttribute("tableName", table);
-            req.setAttribute("tableHeader", service.showHeader(manager, table));
-            req.setAttribute("id", req.getParameter("id"));
-            req.getRequestDispatcher("edit.jsp").forward(req, resp);
+            String table = request.getParameter("table");
+            request.setAttribute("tableName", table);
+            request.setAttribute("tableHeader", service.showHeader(manager, table));
+            request.setAttribute("id", request.getParameter("id"));
+//            request.getRequestDispatcher("edit.jsp").forward(request, response);
+            jsp("edit", request, response);
 
         } else if (action.startsWith("/list")) {
-            req.setAttribute("items", service.list(manager));
-            req.setAttribute("database", req.getSession().getAttribute("database"));
-            req.getRequestDispatcher("list.jsp").forward(req, resp);
+            request.setAttribute("items", service.list(manager));
+            request.setAttribute("database", request.getSession().getAttribute("database"));
+            request.getRequestDispatcher("list.jsp").forward(request, response);
+            jsp("list", request, response);
 
         } else if (action.startsWith("/clear")) {
-            String table = req.getParameter("table");
-            req.setAttribute("table", table);
+            String table = request.getParameter("table");
+            request.setAttribute("table", table);
             service.clear(manager, table);
-            req.getRequestDispatcher("clear.jsp").forward(req, resp);
+//            request.getRequestDispatcher("clear.jsp").forward(request, response);
+            jsp("clear", request, response);
 
         }else if (action.startsWith("/dropTable")) {
-            String table = req.getParameter("table");
-            req.setAttribute("table", table);
+            String table = request.getParameter("table");
+            request.setAttribute("table", table);
             service.dropTable(manager, table);
-            req.getRequestDispatcher("drop.jsp").forward(req, resp);
+//            request.getRequestDispatcher("drop.jsp").forward(request, response);
+            jsp("drop", request, response);
 
         }else if (action.startsWith("/createTable")) {
-            req.getRequestDispatcher("createTable.jsp").forward(req, resp);
+//            request.getRequestDispatcher("createTable.jsp").forward(request, response);
+            jsp("createTable", request, response);
 
         } else if (action.startsWith("/exit")) {
-            req.getSession(false).invalidate();
-            req.getRequestDispatcher("connect.jsp").forward(req, resp);
+            request.getSession(false).invalidate();
+//            request.getRequestDispatcher("connect.jsp").forward(request, response);
+            jsp("connect", request, response);
 
         } else {
-            req.setAttribute("message", "Страница не найдена!");
-            req.getRequestDispatcher("error.jsp").forward(req, resp);
+            request.setAttribute("message", "Страница не найдена!");
+//            request.getRequestDispatcher("error.jsp").forward(request, response);
+            jsp("error", request, response);
         }
     }
 
@@ -178,5 +192,17 @@ public class MainServlet extends HttpServlet {
             input.put(element, req.getParameter(element));
         }
         return input;
+    }
+
+    private void redirect(String url, HttpServletResponse response) throws IOException {
+        response.sendRedirect(response.encodeRedirectURL(url));
+    }
+
+    private DatabaseManager getManager(HttpServletRequest request) {
+        return (DatabaseManager) request.getSession().getAttribute("manager");
+    }
+
+    private void jsp(String jsp, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher(jsp + ".jsp").forward(request, response);
     }
 }
