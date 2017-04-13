@@ -86,6 +86,6 @@ public abstract class ServiceImpl implements Service {
 
     @Override
     public void dropDatabase(DatabaseManager manager, String database){
-        manager.dropTable(database);
+        manager.dropDatabase(database);
     }
 }
