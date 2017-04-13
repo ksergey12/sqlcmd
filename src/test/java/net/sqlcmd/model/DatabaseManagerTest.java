@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -16,25 +17,23 @@ import static org.junit.Assert.assertTrue;
  */
 public class DatabaseManagerTest {
     private DatabaseManager manager;
-    private String TABLE = "table" + getRandomName();
+    private String TABLE = getRandomName();
     private static boolean initIsDone = false;
 
     /**
      * Workaround for a static @BeforeClass
      */
-    public void init() {
+    private void init() {
         if (initIsDone) {
             return;
         }
         manager = new JDBCDatabaseManager();
-        manager.connect("postgres", "postgres", "postgres");
-
-        if(!manager.createDatabase("sqlcmd")){
-            manager.connect("sqlcmd", "postgres", "postgres");
-            Set<String> tables = manager.getTableNames();
-            for (String table : tables) {
-                manager.dropTable(table);
-            }
+//        manager.connect("postgres", "postgres", "postgres");
+//        manager.createDatabase("sqlcmd");
+        manager.connect("sqlcmd", "postgres", "postgres");
+        Set<String> tables = manager.getTableNames();
+        for (String table : tables) {
+            manager.dropTable(table);
         }
         initIsDone = true;
     }
@@ -54,26 +53,11 @@ public class DatabaseManagerTest {
 
     @Test
     public void testGetAllTableNames() {
-        // given
         // when
         Set<String> tableNames = manager.getTableNames();
 
         // then
         assertEquals("[" + TABLE + "]", tableNames.toString());
-    }
-
-    @Test
-    public void testCreateAndDropTable() {
-        // given
-        String testTable = "test" + TABLE;
-        manager.createTable(testTable);
-
-        // when
-        Set<String> tableNames = manager.getTableNames();
-
-        // then
-        assertEquals("["+ TABLE + ", " + testTable + "]", tableNames.toString());
-        manager.dropTable(testTable);
     }
 
     @Test
@@ -115,7 +99,6 @@ public class DatabaseManagerTest {
 
     @Test
     public void testGetColumnNames() {
-        // given
         // when
         Set<String> columnNames = manager.getTableColumns(TABLE);
 
@@ -125,13 +108,12 @@ public class DatabaseManagerTest {
 
     @Test
     public void testIsConnected() {
-        // given
-        // when
         // then
         assertTrue(manager.isConnected());
     }
 
     private String getRandomName() {
-        return new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime());
+        return "test" + new SimpleDateFormat("HHmmss")
+                .format(Calendar.getInstance().getTime());
     }
 }
