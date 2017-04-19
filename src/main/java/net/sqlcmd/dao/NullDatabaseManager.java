@@ -70,4 +70,14 @@ public class NullDatabaseManager implements DatabaseManager {
     public void createTable(String tableName) {
         // do nothing
     }
+
+    @Override
+    public String getDatabaseName() {
+        return "";
+    }
+
+    @Override
+    public String getUserName() {
+        return "";
+    }
 }

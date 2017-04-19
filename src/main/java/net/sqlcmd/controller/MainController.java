@@ -7,10 +7,7 @@ import net.sqlcmd.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
@@ -73,6 +70,20 @@ public class MainController {
         model.addAttribute("tableHeader", service.showHeader(manager, table));
         model.addAttribute("table", service.showTable(manager, table));
         return "show";
+    }
+
+    @RequestMapping(value = "/actions/{userName}", method = RequestMethod.GET)
+    public String actions(Model model, HttpSession session,
+                          @PathVariable(value = "userName") String userName) {
+        DatabaseManager manager = getManager(session);
+
+        if (manager == null) {
+            return "redirect:/connect";
+        }
+
+        model.addAttribute("actions", service.getAllFor(userName));
+        model.addAttribute("userName", userName);
+        return "actions";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)

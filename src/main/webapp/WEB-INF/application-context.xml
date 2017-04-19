@@ -13,4 +13,18 @@
     <bean id="service" class="net.sqlcmd.service.ServiceImpl">
         <lookup-method name="getManager" bean="JDBCDatabaseManager"/>
     </bean>
+
+    <!--<bean id="userActionsDao" class="net.sqlcmd.dao.UserActionsDaoImpl">-->
+        <!--<property name="dataSource" ref="logDataSource"/>-->
+    <!--</bean>-->
+
+
+    <bean id="logDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${log.jdbc.driverClassName}"/>
+        <property name="url" value="${log.jdbc.url}"/>
+        <property name="username" value="${log.jdbc.username}"/>
+        <property name="password" value="${log.jdbc.password}"/>
+    </bean>
+
+    <context:property-placeholder location="classpath:log.jdbc.properties"/>
 </beans>

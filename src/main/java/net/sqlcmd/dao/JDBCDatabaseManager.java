@@ -19,6 +19,8 @@ import java.util.*;
 public class JDBCDatabaseManager implements DatabaseManager {
     private Connection connection;
     private JdbcTemplate template;
+    private String database;
+    private String user;
 
     public JDBCDatabaseManager() {
         try {
@@ -33,6 +35,8 @@ public class JDBCDatabaseManager implements DatabaseManager {
         try {
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/"
                     + database, user, password);
+            this.database = database;
+            this.user = user;
             template = new JdbcTemplate(new SingleConnectionDataSource(connection, false));
         } catch (SQLException e) {
             connection = null;
@@ -150,6 +154,16 @@ public class JDBCDatabaseManager implements DatabaseManager {
     @Override
     public void dropDatabase(String database) {
         template.execute("DROP DATABASE " + database);
+    }
+
+    @Override
+    public String getDatabaseName() {
+        return database;
+    }
+
+    @Override
+    public String getUserName() {
+        return user;
     }
 
     @Override

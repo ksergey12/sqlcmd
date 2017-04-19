@@ -35,4 +35,8 @@ public interface DatabaseManager {
     void dropTable(String tableName);
 
     void createTable(String tableName);
+
+    String getDatabaseName();
+
+    String getUserName();
 }

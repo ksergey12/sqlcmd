@@ -1,8 +1,11 @@
 package net.sqlcmd.service;
 
+import net.sqlcmd.dao.UserAction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import net.sqlcmd.model.DataSet;
 import net.sqlcmd.dao.DatabaseManager;
+import net.sqlcmd.dao.UserActionsDao;
 
 import java.util.*;
 
@@ -14,6 +17,9 @@ public abstract class ServiceImpl implements Service {
 
     abstract DatabaseManager getManager();
 
+    @Autowired
+    private UserActionsDao userActions;
+
     @Override
     public List<String> commandsList() {
         return Arrays.asList("help", "menu", "connect", "list", "exit");
@@ -23,6 +29,7 @@ public abstract class ServiceImpl implements Service {
     public DatabaseManager connect(String database, String user, String password) {
         DatabaseManager manager = getManager();
         manager.connect(database, user, password);
+        userActions.log(user, database, "CONNECT");
         return manager;
     }
 
@@ -40,6 +47,9 @@ public abstract class ServiceImpl implements Service {
                 row.add(dataSet.get(column).toString());
             }
         }
+        userActions.log(manager.getUserName(), manager.getDatabaseName(),
+                "SHOW TABLE <b>" + table + "</b>");
+
         return result;
     }
 
@@ -50,6 +60,8 @@ public abstract class ServiceImpl implements Service {
 
     @Override
     public Set<String> list(DatabaseManager manager){
+        userActions.log(manager.getUserName(), manager.getDatabaseName(),
+                "LIST");
         return manager.getTableNames();
     }
 
@@ -86,5 +98,13 @@ public abstract class ServiceImpl implements Service {
     @Override
     public void dropDatabase(DatabaseManager manager, String database){
         manager.dropDatabase(database);
+    }
+
+    @Override
+    public List<UserAction> getAllFor(String user){
+        if(user == null)
+            throw new IllegalArgumentException("User can't be null.");
+
+        return userActions.getAllFor(user);
     }
 }

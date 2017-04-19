@@ -1,5 +1,6 @@
 package net.sqlcmd.service;
 
+import net.sqlcmd.dao.UserAction;
 import net.sqlcmd.model.DataSet;
 import net.sqlcmd.dao.DatabaseManager;
 
@@ -33,4 +34,6 @@ public interface Service {
     void createDatabase(DatabaseManager manager, String database);
 
     void dropDatabase(DatabaseManager manager, String database);
+
+    List<UserAction> getAllFor(String user);
 }
