@@ -10,10 +10,10 @@
         <c:forEach items="${actions}" var="userAction">
             <tr>
                 <td>
-                    ${userAction.user}
+                    ${userAction.userName}
                 </td>
                 <td>
-                    ${userAction.database}
+                    ${userAction.dbName}
                 </td>
                 <td>
                     ${userAction.action}

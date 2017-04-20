@@ -142,10 +142,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
         template.execute("DROP TABLE IF EXISTS " + tableName);
     }
 
-    /**
-     * @param database is a database name to create
-     * @return true if database created successfully, false is exception occurs
-     */
     @Override
     public void createDatabase(String database) {
         template.execute("CREATE DATABASE " + database);

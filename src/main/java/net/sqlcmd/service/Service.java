@@ -1,6 +1,6 @@
 package net.sqlcmd.service;
 
-import net.sqlcmd.dao.UserAction;
+import net.sqlcmd.dao.entity.UserAction;
 import net.sqlcmd.model.DataSet;
 import net.sqlcmd.dao.DatabaseManager;
 
@@ -23,9 +23,9 @@ public interface Service {
 
     void clear(DatabaseManager manager, String tableName);
 
-    void create(DatabaseManager manager, String tableName, DataSet input);
+    void updateTableFromDataSet(DatabaseManager manager, String tableName, DataSet input);
 
-    void update(DatabaseManager manager, String tableName, DataSet input, int id);
+    void updateTableRow(DatabaseManager manager, String tableName, DataSet input, int id);
 
     void createTable(DatabaseManager manager, String tableName);
 

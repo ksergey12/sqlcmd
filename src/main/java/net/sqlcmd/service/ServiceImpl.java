@@ -1,11 +1,11 @@
 package net.sqlcmd.service;
 
-import net.sqlcmd.dao.UserAction;
+import net.sqlcmd.dao.entity.UserAction;
+import net.sqlcmd.dao.UserActionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import net.sqlcmd.model.DataSet;
 import net.sqlcmd.dao.DatabaseManager;
-import net.sqlcmd.dao.UserActionsDao;
 
 import java.util.*;
 
@@ -18,7 +18,7 @@ public abstract class ServiceImpl implements Service {
     abstract DatabaseManager getManager();
 
     @Autowired
-    private UserActionsDao userActions;
+    private UserActionsRepository userActions;
 
     @Override
     public List<String> commandsList() {
@@ -29,16 +29,19 @@ public abstract class ServiceImpl implements Service {
     public DatabaseManager connect(String database, String user, String password) {
         DatabaseManager manager = getManager();
         manager.connect(database, user, password);
-        userActions.log(user, database, "CONNECT");
+        UserAction action = new UserAction(manager.getUserName(),
+                manager.getDatabaseName(), String.format("Connect to <b>%s</b>", database));
+        userActions.save(action);
+
         return manager;
     }
 
     @Override
-    public List<List<String>> showTable(DatabaseManager manager, String table) {
+    public List<List<String>> showTable(DatabaseManager manager, String tableName) {
         List<List<String>> result = new LinkedList<>();
 
-        List<String> columns = new LinkedList<>(manager.getTableColumns(table));
-        List<DataSet> tableData = manager.getTableValues(table);
+        List<String> columns = new LinkedList<>(manager.getTableColumns(tableName));
+        List<DataSet> tableData = manager.getTableValues(tableName);
 
         for (DataSet dataSet : tableData) {
             List<String> row = new ArrayList<>(columns.size());
@@ -47,8 +50,9 @@ public abstract class ServiceImpl implements Service {
                 row.add(dataSet.get(column).toString());
             }
         }
-        userActions.log(manager.getUserName(), manager.getDatabaseName(),
-                "SHOW TABLE <b>" + table + "</b>");
+        UserAction action = new UserAction(manager.getUserName(),
+                manager.getDatabaseName(), String.format("Show table <b>%s</b>", tableName));
+        userActions.save(action);
 
         return result;
     }
@@ -59,52 +63,83 @@ public abstract class ServiceImpl implements Service {
     }
 
     @Override
-    public Set<String> list(DatabaseManager manager){
-        userActions.log(manager.getUserName(), manager.getDatabaseName(),
-                "LIST");
+    public Set<String> list(DatabaseManager manager) {
+        UserAction action = new UserAction(manager.getUserName(),
+                manager.getDatabaseName(), "List all tables");
+        userActions.save(action);
+
         return manager.getTableNames();
     }
 
     @Override
-    public void create(DatabaseManager manager, String tableName, DataSet input){
+    public void updateTableFromDataSet(DatabaseManager manager, String tableName, DataSet input) {
         manager.create(tableName, input);
+
+        UserAction action = new UserAction(manager.getUserName(),
+                manager.getDatabaseName(), String.format("Update table <b>%s</b>", tableName));
+        userActions.save(action);
     }
 
     @Override
-    public void update(DatabaseManager manager, String tableName, DataSet input, int id) {
+    public void updateTableRow(DatabaseManager manager, String tableName, DataSet input, int id) {
         manager.update(tableName, input, id);
+
+        UserAction action = new UserAction(manager.getUserName(),
+                manager.getDatabaseName(),
+                String.format("Update table row id=%s in <b>%s</b>", tableName, id));
+        userActions.save(action);
     }
 
     @Override
-    public void clear(DatabaseManager manager,String tableName){
+    public void clear(DatabaseManager manager, String tableName) {
         manager.clear(tableName);
+
+        UserAction action = new UserAction(manager.getUserName(),
+                manager.getDatabaseName(), String.format("Clear table <b>%s</b>", tableName));
+        userActions.save(action);
     }
 
     @Override
-    public void createTable(DatabaseManager manager, String tableName){
+    public void createTable(DatabaseManager manager, String tableName) {
         manager.createTable(tableName);
+
+        UserAction action = new UserAction(manager.getUserName(),
+                manager.getDatabaseName(), String.format("Create table <b>%s</b>", tableName));
+        userActions.save(action);
     }
 
     @Override
-    public void dropTable(DatabaseManager manager, String tableName){
+    public void dropTable(DatabaseManager manager, String tableName) {
         manager.dropTable(tableName);
+
+        UserAction action = new UserAction(manager.getUserName(),
+                manager.getDatabaseName(), String.format("Drop table <b>%s</b>", tableName));
+        userActions.save(action);
     }
 
     @Override
-    public void createDatabase(DatabaseManager manager, String database){
+    public void createDatabase(DatabaseManager manager, String database) {
         manager.createDatabase(database);
+
+        UserAction action = new UserAction(manager.getUserName(),
+                manager.getDatabaseName(), String.format("Create database <b>%s</b>", database));
+        userActions.save(action);
     }
 
     @Override
-    public void dropDatabase(DatabaseManager manager, String database){
+    public void dropDatabase(DatabaseManager manager, String database) {
         manager.dropDatabase(database);
+
+        UserAction action = new UserAction(manager.getUserName(),
+                manager.getDatabaseName(), String.format("Drop database <b>%s</b>", database));
+        userActions.save(action);
     }
 
     @Override
-    public List<UserAction> getAllFor(String user){
-        if(user == null)
+    public List<UserAction> getAllFor(String user) {
+        if (user == null)
             throw new IllegalArgumentException("User can't be null.");
 
-        return userActions.getAllFor(user);
+        return userActions.findByUserName(user);
     }
 }

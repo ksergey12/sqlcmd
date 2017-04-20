@@ -107,7 +107,7 @@ public class MainController {
             DatabaseManager manager = (DatabaseManager) session.getAttribute("db_manager");
             String table = (String) allRequestParams.get("table");
             DataSet input = getDataSet(allRequestParams);
-            service.create(manager, table, input);
+            service.updateTableFromDataSet(manager, table, input);
             return "redirect:/show?table=" + table;
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
@@ -133,7 +133,7 @@ public class MainController {
             String table = (String) allRequestParams.get("table");
             int id = Integer.parseInt(allRequestParams.get("id").toString());
             DataSet input = getDataSet(allRequestParams);
-            service.update(manager, table, input, id);
+            service.updateTableRow(manager, table, input, id);
             return "redirect:/show?table=" + table;
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
