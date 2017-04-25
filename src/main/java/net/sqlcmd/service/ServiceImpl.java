@@ -10,7 +10,7 @@ import net.sqlcmd.dao.DatabaseManager;
 import java.util.*;
 
 /**
- * Created by Admin on 09.11.2015.
+ * Created by User on 09.11.2015.
  */
 @Component
 public abstract class ServiceImpl implements Service {
@@ -29,8 +29,8 @@ public abstract class ServiceImpl implements Service {
     public DatabaseManager connect(String database, String user, String password) {
         DatabaseManager manager = getManager();
         manager.connect(database, user, password);
-        UserAction action = new UserAction(manager.getUserName(),
-                manager.getDatabaseName(), String.format("Connect to <b>%s</b>", database));
+        UserAction action = new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                "Connect to <b>%s</b>", database);
         userActions.save(action);
 
         return manager;
@@ -50,8 +50,8 @@ public abstract class ServiceImpl implements Service {
                 row.add(dataSet.get(column).toString());
             }
         }
-        UserAction action = new UserAction(manager.getUserName(),
-                manager.getDatabaseName(), String.format("Show table <b>%s</b>", tableName));
+        UserAction action = new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                "Show table <b>%s</b>", tableName);
         userActions.save(action);
 
         return result;
@@ -64,8 +64,8 @@ public abstract class ServiceImpl implements Service {
 
     @Override
     public Set<String> list(DatabaseManager manager) {
-        UserAction action = new UserAction(manager.getUserName(),
-                manager.getDatabaseName(), "List all tables");
+        UserAction action = new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                "List all tables");
         userActions.save(action);
 
         return manager.getTableNames();
@@ -75,18 +75,17 @@ public abstract class ServiceImpl implements Service {
     public void updateTableFromDataSet(DatabaseManager manager, String tableName, DataSet input) {
         manager.create(tableName, input);
 
-        UserAction action = new UserAction(manager.getUserName(),
-                manager.getDatabaseName(), String.format("Update table <b>%s</b>", tableName));
+        UserAction action = new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                "Update table <b>%s</b>", tableName);
         userActions.save(action);
     }
 
     @Override
-    public void updateTableRow(DatabaseManager manager, String tableName, DataSet input, int id) {
+    public void updateTableRecord(DatabaseManager manager, String tableName, DataSet input, String id) {
         manager.update(tableName, input, id);
 
-        UserAction action = new UserAction(manager.getUserName(),
-                manager.getDatabaseName(),
-                String.format("Update table row id=%s in <b>%s</b>", tableName, id));
+        UserAction action = new UserAction(manager.getUserName(), manager.getDatabaseName(),
+                "Update table row id=%s in <b>%s</b>", tableName, id);
         userActions.save(action);
     }
 
@@ -95,7 +94,7 @@ public abstract class ServiceImpl implements Service {
         manager.clear(tableName);
 
         UserAction action = new UserAction(manager.getUserName(),
-                manager.getDatabaseName(), String.format("Clear table <b>%s</b>", tableName));
+                manager.getDatabaseName(), "Clear table <b>%s</b>", tableName);
         userActions.save(action);
     }
 
@@ -104,7 +103,7 @@ public abstract class ServiceImpl implements Service {
         manager.createTable(tableName);
 
         UserAction action = new UserAction(manager.getUserName(),
-                manager.getDatabaseName(), String.format("Create table <b>%s</b>", tableName));
+                manager.getDatabaseName(), "Create table <b>%s</b>", tableName);
         userActions.save(action);
     }
 
@@ -113,7 +112,7 @@ public abstract class ServiceImpl implements Service {
         manager.dropTable(tableName);
 
         UserAction action = new UserAction(manager.getUserName(),
-                manager.getDatabaseName(), String.format("Drop table <b>%s</b>", tableName));
+                manager.getDatabaseName(), "Drop table <b>%s</b>", tableName);
         userActions.save(action);
     }
 
@@ -122,7 +121,7 @@ public abstract class ServiceImpl implements Service {
         manager.createDatabase(database);
 
         UserAction action = new UserAction(manager.getUserName(),
-                manager.getDatabaseName(), String.format("Create database <b>%s</b>", database));
+                manager.getDatabaseName(), "Create database <b>%s</b>", database);
         userActions.save(action);
     }
 
@@ -131,7 +130,7 @@ public abstract class ServiceImpl implements Service {
         manager.dropDatabase(database);
 
         UserAction action = new UserAction(manager.getUserName(),
-                manager.getDatabaseName(), String.format("Drop database <b>%s</b>", database));
+                manager.getDatabaseName(), "Drop database <b>%s</b>", database);
         userActions.save(action);
     }
 

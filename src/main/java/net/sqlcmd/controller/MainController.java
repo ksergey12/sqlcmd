@@ -131,9 +131,9 @@ public class MainController {
         try {
             DatabaseManager manager = (DatabaseManager) session.getAttribute("db_manager");
             String table = (String) allRequestParams.get("table");
-            int id = Integer.parseInt(allRequestParams.get("id").toString());
+            String id = allRequestParams.get("id").toString();
             DataSet input = getDataSet(allRequestParams);
-            service.updateTableRow(manager, table, input, id);
+            service.updateTableRecord(manager, table, input, id);
             return "redirect:/show?table=" + table;
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());

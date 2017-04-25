@@ -27,9 +27,12 @@ public class UserAction {
         // do nothing
     }
 
-    public UserAction(String userName, String database, String action) {
+    public UserAction(String userName, String database, String action, String... params) {
         this.userName = userName;
         this.dbName = database;
+        if (params.length != 0) {
+            action = String.format(action, params);
+        }
         this.action = action;
     }
 

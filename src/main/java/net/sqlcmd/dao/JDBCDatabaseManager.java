@@ -114,7 +114,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void update(String tableName, DataSet input, int id) {
+    public void update(String tableName, DataSet input, String id) {
         String sql = "UPDATE \"" + tableName + "\" SET ";
         int index = 0;
         for (String element : input.getNames()) {

@@ -25,7 +25,7 @@ public interface Service {
 
     void updateTableFromDataSet(DatabaseManager manager, String tableName, DataSet input);
 
-    void updateTableRow(DatabaseManager manager, String tableName, DataSet input, int id);
+    void updateTableRecord(DatabaseManager manager, String tableName, DataSet input, String id);
 
     void createTable(DatabaseManager manager, String tableName);
 

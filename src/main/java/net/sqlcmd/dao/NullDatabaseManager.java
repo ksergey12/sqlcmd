@@ -57,7 +57,7 @@ public class NullDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void update(String tableName, DataSet input, int id) {
+    public void update(String tableName, DataSet input, String id) {
         // do nothing
     }
 

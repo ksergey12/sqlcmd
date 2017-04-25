@@ -30,7 +30,7 @@ public interface DatabaseManager {
 
     boolean isConnected();
 
-    void update(String tableName, DataSet input, int id);
+    void update(String tableName, DataSet input, String id);
 
     void dropTable(String tableName);
 
